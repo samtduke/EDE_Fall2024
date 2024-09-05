@@ -22,15 +22,15 @@ Enter answers to the questions just below the >Answer: prompt.
 
 1. What are your previous experiences with data analytics, R, and Git? Include both formal and informal training.
 
-> Answer: 
+> Answer: None! I know a little HTML, but no R or Git
 
 2. Are there any components of the course about which you feel confident?
 
-> Answer: 
+> Answer: I have foreign language learning experience, so coding feels like its just another language.
 
 3. Are there any components of the course about which you feel apprehensive?
 
-> Answer: 
+> Answer: I have never coded in depth before, need to become familair with the machine, etc.
 
 
 ## 2) GitHub
