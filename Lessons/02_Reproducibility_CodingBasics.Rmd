@@ -1,3 +1,4 @@
+---
 title: "2: Reproducibility and Coding Basics"
 subtitle: "Environmental Data Analytics"
 author: "John Fay and Luana Lima | Developed by Kateri Salk"
@@ -73,7 +74,7 @@ Below is a chunk of R code. You can run R code in several ways:
 ```{r}
 # Basic math
 1 + 1
-1 - 1
+1 - 1 / 500
 2 * 2
 1 / 2
 1 / 200 * 30
@@ -128,14 +129,15 @@ What happens if there is a typo in your code? Type the following in the R window
 ```{r}
 long_name_for_illustration <- 11
 
-```
 
+long_name_for_illustration
 ### Comments
 
-Within your R code, it is often useful to include notes about your workflow. So that these aren't interpreted by the software as code, precede the notes with a `#` sign. Your editor will display this comment as a different color to indicate it will not be run in the console. Comments can be placed on their own lines or at the end of a line of code.
+# Within your R code, it is often useful to include notes about your workflow. So that these aren't interpreted by the software as code, precede the notes with a `#` sign. Your editor will display this comment as a different color to indicate it will not be run in the console. Comments can be placed on their own lines or at the end of a line of code.
 
-```{r}
+
 # I am demonstrating a comment here. 
+# Test comment just commenting
 
 1 + 1 # This is a simple math problem
 ```
@@ -146,10 +148,16 @@ R functions are the major tool used in R. Functions can do virtually unlimited t
 
 ```{r}
 seq(1, 10)
+seq(10,50)
 ten_sequence <- seq(1, 10)
 ten_sequence
 
 seq(1, 10, 2) # from, to, by
+
+mean(24, 2, -6)
+
+seq (1,25,4)
+
 ```
 
 The basic form of a function is `functionname()`, and the packages we will use in this class will use these basic forms. However, there may be situations when you will want to create your own function. Below is a description of how to write functions through the metaphor of creating a recipe (credit: @IsabellaGhement on Twitter).
@@ -157,8 +165,9 @@ The basic form of a function is `functionname()`, and the packages we will use i
 Writing a function is like writing a recipe. Your function will need a recipe name (functionname). Your recipe ingredients will go inside the parentheses. The recipe steps and end product go inside the curly brackets.
 
 ```{r}
-functionname <- function(){
-  
+functionname <- function(x){
+  mix<- x*2
+  return(mix)
 }
 ```
 
@@ -167,12 +176,19 @@ A single ingredient recipe:
 ```{r}
 # Write the recipe
 recipe1 <- function(x){
-  mix <- x*2
+  return( x*2)
+}
+recipe1(5)
+# Bake the recipe
+simplemeal <- recipe1(5)
+simplemeal
+
+recipe1<- function(x){
+  mix<-x*2
   return(mix)
 }
 
-# Bake the recipe
-simplemeal <- recipe1(5)
+simplemeal<-recipe1(5)
 
 # Serve the recipe
 simplemeal
