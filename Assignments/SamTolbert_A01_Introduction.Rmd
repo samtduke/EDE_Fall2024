@@ -8,6 +8,7 @@ output: pdf_document
 
 This exercise accompanies the introductory material in Environmental Data Analytics. 
 
+
 ## Directions
 1.  Rename this file `<FirstLast>_A01_Introduction.Rmd` (replacing `<FirstLast>` with your first and last name).
 2.  Change "Student Name" on line 3 (above) with your name.
