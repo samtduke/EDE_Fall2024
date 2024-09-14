@@ -32,17 +32,14 @@ This exercise accompanies the lessons/labs in Environmental Data Analytics on co
 
 ```{r basics 1}
 #1. 
-onetofiftyfive<- c(seq(1,55,5)) 
-#creating and naming sequence
+onetofiftyfive<- c(seq(1,55,5)) #creating and naming sequence
 
 #2. 
 mean(onetofiftyfive)
-median(onetofiftyfive) 
-#finding mean and median
+median(onetofiftyfive) #finding mean and median
 
 #3. 
-mean(onetofiftyfive)!=median(onetofiftyfive) 
-# comparison
+mean(onetofiftyfive)!=median(onetofiftyfive)#comparison
 ```
 
 ## Basics, Part 2
@@ -82,8 +79,11 @@ student_data<- data.frame(
 
 13. Run both functions using the **vector** of student test scores you created as the input. (Only one will work properly...)
 
-```{r basics 3}
-#10. Create a function using if...else #Disclosure: asked R Wizard GPT for an example of if...else structure. The individual parts make sense but GPT helps with structure.
+```{r basics 3} 
+#10. Create a function using if...else Disclosure: asked R Wizard GPT 
+#for an example of if...else structure. 
+#The individual parts make sense 
+#but GPT helps with structure.
 
 check_score<-function(score){
   if (score>50) {
@@ -93,7 +93,12 @@ check_score<-function(score){
   }
 }
 
-#11. Create a function using ifelse() #Disclosure: Consulted with R Wizard GPT to debug (I had parentheses issues). It also helped explain the uses of "return as variable" and return(result)" which it explains is a little extraneous but will help when the logic gets more complicated, so I am using it.
+#11. Create a function using ifelse() Disclosure: Consulted 
+#with R Wizard GPT to debug (I had parentheses issues). 
+#It also helped explain the uses of "return as variable" 
+#and return(result)" which it explains is a little 
+#extraneous but will help when the logic gets
+#more complicated, so I am using it.
 
 
 check_score_fifty <- function(score) {
@@ -107,19 +112,19 @@ check_score(52.5)
 
 #12b. Run the second function with the value 52.5
 
-check_score_ifelse(52.5)
+check_score_fifty(52.5)
 
 #13a. Run the first function with the vector of test scores
 #check_score(vector_2)
 
 #13b. Run the second function with the vector of test scores
-check_score_ifelse(vector_2)
+check_score_fifty(vector_2)
 ```
 
 14. QUESTION: Which option of `if`...`else` vs. `ifelse` worked? Why? (Hint: search the web for "R vectorization")
 
 
-> Answer: ifelsse woerked because ifesle allows for vectorization. if...else will allow for one answer for one data, but ifelse will return results for an entire vector. 
+> Answer: ifelse worked because ifelse allows for vectorization. if...else will allow for one answer for one data, but ifelse will return results for an entire vector. 
 
 
 **NOTE** Before knitting, you'll need to comment out the call to the function in Q13 that does not work. (A document can't knit if the code it contains causes an error!)
