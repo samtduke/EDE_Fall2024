@@ -1,6 +1,6 @@
 ---
 title: "Assignment 2: Coding Basics"
-author: "Student Name"
+author: "Sam Tolbert"
 output: pdf_document
 geometry: margin=2.54cm
 editor_options: 
@@ -32,16 +32,23 @@ This exercise accompanies the lessons/labs in Environmental Data Analytics on co
 
 ```{r basics 1}
 #1. 
+onetofiftyfive<- c(seq(1,55,5)) 
+#creating and naming sequence
 
 #2. 
+mean(onetofiftyfive)
+median(onetofiftyfive) 
+#finding mean and median
 
 #3. 
-
+mean(onetofiftyfive)!=median(onetofiftyfive) 
+# comparison
 ```
 
 ## Basics, Part 2
 
 5.  Create three vectors, each with four components, consisting of (a) student names, (b) test scores, and (c) whether they are on scholarship or not (TRUE or FALSE).
+
 
 6.  Label each vector with a comment on what type of vector it is.
 
@@ -50,13 +57,22 @@ This exercise accompanies the lessons/labs in Environmental Data Analytics on co
 8.  Label the columns of your data frame with informative titles.
 
 ```{r basics 2}
+#5.
+vector_1<- c("adam" ,"bob", "cindi", "dave") #nominal vector
+vector_2<- c(100, 90, 80, 70) #numerical vector
+vector_3<- c(TRUE, TRUE, FALSE, FALSE) #logical vector
 
+student_data<- data.frame(
+  Name= vector_1,
+  Grade= vector_2,
+  Scholarship= vector_3
+  )
 
 ```
 
 9.  QUESTION: How is this data frame different from a matrix?
 
-> Answer:
+> Answer: I think of data frames of Excel spreadsheets operating inside of R. They have rows and columns with different data sets of different types that I manipulate-- through different commands-than matrices. Matrices are 2D arrays of data of the same type. They are most usable for linear algebra and things that I might need to get watch some math youtube videos in order to properly utilize, whereas data frames I can conceptualize more readily. I can multuply matrices together, they are mathetimcal instruments, I cannot do that for data frames, they are instruments for data visualization and comparison. 
 
 10. Create a function with one input. In this function, use `if`...`else` to evaluate the value of the input: if it is greater than 50, print the word "Pass"; otherwise print the word "Fail". 
 
@@ -69,18 +85,38 @@ This exercise accompanies the lessons/labs in Environmental Data Analytics on co
 ```{r basics 3}
 #10. Create a function using if...else
 
+check_score<-function(score){
+  if (score>50) {
+    return("PASS")
+  }else{
+    return ("FAIL")
+  }
+}
+
 #11. Create a function using ifelse()
+
+check_score_ifelse <- function(score) {
+  result <- (ifelse(score>50, "PASS", "FAIL"))
+         return(result)
+}
 
 #12a. Run the first function with the value 52.5
 
+check_score(52.5)
+
 #12b. Run the second function with the value 52.5
 
+check_score_ifelse(52.5)
+
 #13a. Run the first function with the vector of test scores
+#check_score(vector_2)
 
 #13b. Run the second function with the vector of test scores
+check_score_ifelse(vector_2)
 ```
 
 14. QUESTION: Which option of `if`...`else` vs. `ifelse` worked? Why? (Hint: search the web for "R vectorization")
+
 
 > Answer:
 
