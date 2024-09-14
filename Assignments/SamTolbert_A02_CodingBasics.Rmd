@@ -83,7 +83,7 @@ student_data<- data.frame(
 13. Run both functions using the **vector** of student test scores you created as the input. (Only one will work properly...)
 
 ```{r basics 3}
-#10. Create a function using if...else
+#10. Create a function using if...else #Disclosure: asked R Wizard GPT for an example of if...else structure. The individual parts make sense but GPT helps with structure.
 
 check_score<-function(score){
   if (score>50) {
@@ -93,11 +93,16 @@ check_score<-function(score){
   }
 }
 
-#11. Create a function using ifelse()
+#11. Create a function using ifelse() #Disclosure: Consulted with R Wizard GPT to debug (I had parentheses issues). It also helped explain the uses of "return(result)" which it explains is a little extraneous but will help when the logic gets more complicated, so I am using it.
 
 check_score_ifelse <- function(score) {
   result <- (ifelse(score>50, "PASS", "FAIL"))
          return(result)
+}
+
+check_score_fifty <- function(score) {
+result <- (ifelse(score>50, "PASS", "FAIL"))
+return(result)
 }
 
 #12a. Run the first function with the value 52.5
@@ -118,7 +123,7 @@ check_score_ifelse(vector_2)
 14. QUESTION: Which option of `if`...`else` vs. `ifelse` worked? Why? (Hint: search the web for "R vectorization")
 
 
-> Answer:
+> Answer: ifelsse woerked because ifesle allows for vectorization. if...else will allow for one answer for one data, but ifelse will return results for an entire vector. 
 
 
 **NOTE** Before knitting, you'll need to comment out the call to the function in Q13 that does not work. (A document can't knit if the code it contains causes an error!)
