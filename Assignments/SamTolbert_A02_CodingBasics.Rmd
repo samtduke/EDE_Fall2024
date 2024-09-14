@@ -93,12 +93,8 @@ check_score<-function(score){
   }
 }
 
-#11. Create a function using ifelse() #Disclosure: Consulted with R Wizard GPT to debug (I had parentheses issues). It also helped explain the uses of "return(result)" which it explains is a little extraneous but will help when the logic gets more complicated, so I am using it.
+#11. Create a function using ifelse() #Disclosure: Consulted with R Wizard GPT to debug (I had parentheses issues). It also helped explain the uses of "return as variable" and return(result)" which it explains is a little extraneous but will help when the logic gets more complicated, so I am using it.
 
-check_score_ifelse <- function(score) {
-  result <- (ifelse(score>50, "PASS", "FAIL"))
-         return(result)
-}
 
 check_score_fifty <- function(score) {
 result <- (ifelse(score>50, "PASS", "FAIL"))
