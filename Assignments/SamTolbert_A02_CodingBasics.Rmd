@@ -80,8 +80,8 @@ student_data<- data.frame(
 13. Run both functions using the **vector** of student test scores you created as the input. (Only one will work properly...)
 
 ```{r basics 3} 
-#10. Create a function using if...else Disclosure: asked R Wizard GPT 
-#for an example of if...else structure. 
+#10. Create a function using if...else 
+#Disclosure: asked R Wizard GPT for an example of if...else structure. 
 #The individual parts make sense 
 #but GPT helps with structure.
 
