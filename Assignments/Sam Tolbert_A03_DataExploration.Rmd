@@ -90,7 +90,8 @@ Neonics_HightoLow <-sort(Neonics_summary, decreasing=TRUE)
 
 print(Neonics_HightoLow) #fancy way
 
-sort(summary(Neonics$Effect), decreasing= TRUE) #less fancy way
+sort(summary(Neonics$Effect), decreasing= TRUE) #less fancy way; is there a
+#best practices for how to do this?
 
 
 ```
@@ -119,10 +120,11 @@ print (NeonicsSortedSpecies)
 
 ```{r}
 
+class(Neonics$Conc.1..Author.)
 
 ```
 
-> Answer:
+> Answer: It is a factor. It is not numeric because ??
 
 ## Explore your data graphically (Neonics)
 
