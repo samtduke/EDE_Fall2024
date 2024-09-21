@@ -59,9 +59,9 @@ You need to load packages each time you start (or restart) an R coding session; 
 
 ```{r Setup: Loading Packages}
 #Install packages - uncomment these only when you need to install packages
-#install.packages('dplyr')
-#install.packages('ggplot')
-#install.packages('here')
+install.packages('dplyr')
+install.packages('ggplot')
+install.packages('here')
 
 #Load the tidyverse, ggplot2, and here package
 library(dplyr)
@@ -70,7 +70,7 @@ library(here)
 
 
 # Some packages are umbrellas under which other packages are loaded
-#install.packages("tidyverse")
+install.packages("tidyverse")
 library(tidyverse)
 ```
 
@@ -122,8 +122,8 @@ Commons functions to import datasets and store as data frames are *read.table()*
 ```{r Importing data}
 # Absolute file path (not recommended)
 #read.csv(
-#  file="/home/guest/EDE_Fall2024/Data/Raw/USGS_Site02085000_Flow_Raw.csv",
-#  stringsAsFactors = TRUE)
+#file="/home/guest/EDE_Fall2024/Data/Raw/USGS_Site02085000_Flow_Raw.csv",
+#stringsAsFactors = TRUE)
 
 # Relative file path (friendly for users regardless of machine)
 USGS.flow.data <- read.csv(
@@ -144,10 +144,15 @@ Prior to running this, reset your workspace (Session->Restart R) to ensure it ru
 
 ```{r Setup}
 # Load packages
+#install.packages(ggplot)
+#install.packages(dplyr)
+#install.packages(here)
 
 # Confirm working directory
+getwd()
 
 # Load the USGS flow data into a data frame
+USGS.flow.data<-read.csv(file=here("Data/Raw/USGS_Site02085000_Flow_Raw.csv"),stringsAsFactors=TRUE)
 
 ```
 
@@ -312,10 +317,20 @@ We just edited our raw dataset into a processed form. We may want to return to t
 
 
 ```{r Saving data}
+
+library(here)
 write.csv(
   USGS.flow.data, 
-  file = here("/Data/Processed/USGS_Site02085000_Flow_Processed.csv"), 
+  file = here("./Data/Processed/USGS_Site02085000_Flow_Processed.csv"), 
   row.names=FALSE)
+
+write.csv(
+  USGS.flow.data,
+  file=here("./Data/Processed/USGS_Site02085_Flow_Processed.csv"),
+  
+  row.names=FALSE)
+
+
 
 ```
 
