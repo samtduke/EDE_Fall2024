@@ -3,6 +3,8 @@ title: "3: Data Exploration"
 author: "Environmental Data Analytics | John Fay & Luana Lima"
 date: "Fall 2024"
 output: pdf_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## Lesson Objectives
@@ -26,22 +28,44 @@ Why is data exploration our first step in analyzing a dataset? What information 
 ## -Set up-
 # 1. Load packages (tidyverse, here)
 
+library(tidyverse)
+library(here)
+
 # 2. Check the working directory
+
+getwd()
+here()
 
 # 3. Import datasets
 
+USGS.flow.data.complete<-read.csv(
+  file=here('Data/Processed/USGS_Site02085_Flow_Processed.csv'),
+  stringsAsFactors = TRUE,
+  colClasses = c('site_no'='factor')
+)
+
+
+
 ## -Initial Exploration-
 
-#View(USGS.flow.data)
+View(USGS.flow.data)
 # Alternate option: click on data frame in Environment tab
 
 #View column names and the structure of the dataset
 
+colnames(USGS.flow.data)
+str(USGS.flow.data)
+
+
+
+
+
 # Check our date column: is it a date object?
+class(USGS.flow.data$datetime)
 
 # Change it to a date object and confirm
 
-
+USGS.flow.data$datetime <- as.Date(USGS.flow.data$datetime, format = "%Y-%m-%d") 
 ```
 
 ---
@@ -58,6 +82,9 @@ Visualize count data for categorical variables.
 ```{r, fig.height = 3, fig.width = 4}
 ggplot(data = USGS.flow.data, aes(x = discharge.mean.approval)) +
   geom_bar()
+
+ggplot(data=USGS.flow.data, aes(x=discharge.mean.approval))+
+  geom_bar()
 ```
 
 ### Histogram (function: geom_histogram)
@@ -70,16 +97,16 @@ ggplot(USGS.flow.data) +
 
 # 
 ggplot(USGS.flow.data) +
-  geom_histogram(aes(x = discharge.mean), binwidth = 10)
+  geom_histogram(aes(x = discharge.mean), binwidth = 100)
 
 # 
 ggplot(USGS.flow.data) +
-  geom_histogram(aes(x = discharge.mean), bins = 20)
+  geom_histogram(aes(x = discharge.mean), bins = 200)
 
 # 
 ggplot(USGS.flow.data, aes(x = discharge.mean)) +
   geom_histogram(binwidth = 10) + 
-  scale_x_continuous(limits = c(0, 500))
+  scale_x_continuous(limits = c(0, 100))
   
 # 
 ggplot(USGS.flow.data) +
@@ -95,15 +122,15 @@ An alternate to a histogram is a frequency polygon graph (distributions of value
 #
 ggplot(USGS.flow.data) +
   geom_freqpoly(aes(x = gage.height.mean), bins = 50) +
-  geom_freqpoly(aes(x = gage.height.min), bins = 50, color = "darkgray") +
-  geom_freqpoly(aes(x = gage.height.max), bins = 50,  lty = 2) +
+  geom_freqpoly(aes(x = gage.height.min), bins = 50, color = "chartreuse") +
+  geom_freqpoly(aes(x = gage.height.max), bins = 50, lty = 5,  color = "blue",) +
   scale_x_continuous(limits = c(0, 10))
 
 #
 ggplot(USGS.flow.data) +
   geom_freqpoly(aes(x = gage.height.mean, color = gage.height.mean.approval), bins = 50) +
   scale_x_continuous(limits = c(0, 10)) +
-  theme(legend.position = "top")
+  theme(legend.position = "right")
 
 ```
 
@@ -128,7 +155,12 @@ ggplot(USGS.flow.data) +
 
 #
 ggplot(USGS.flow.data) +
-  geom_boxplot(aes(x = gage.height.mean, y = discharge.mean, group = cut_width(gage.height.mean, 1)))
+  geom_boxplot(aes
+               (x = gage.height.mean, 
+                 y = discharge.mean, 
+                 group = cut_width(gage.height.mean, 1)
+                 )
+  )
 
 #
 ggplot(USGS.flow.data) +
@@ -141,7 +173,10 @@ Visualize relationships between continuous numerical variables.
 
 ```{r, fig.height = 3, fig.width = 4}
 ggplot(USGS.flow.data) +
-  geom_point(aes(x = discharge.mean, y = gage.height.mean))
+  geom_point(aes
+             (x = discharge.mean, 
+               y = gage.height.mean)
+             )
 
 ggplot(USGS.flow.data) +
   geom_point(aes(x = datetime, y = discharge.mean))
@@ -155,10 +190,13 @@ Question: under what circumstances would it be beneficial to use each of these g
 What did you learn about the USGS discharge dataset today? What separate insights did the different graph types offer?
 > Answer: 
 
+different plots emphasize different asepcts of the data
 
 How can multiple options for data exploration inform our understanding of our data?
 
 > Answer: 
+
+being able to observe different trends
 
 
 Do you see any patterns in the USGS data for the Eno River? What might be responsible for those patterns and/or relationships?

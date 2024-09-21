@@ -3,6 +3,8 @@ title: "Lab 3b - Workspaces, Dates, and Factors"
 author: "Environmental Data Analytics | John Fay and Luana Lima "
 date: "Fall 2024"
 output: pdf_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## Objectives
@@ -52,7 +54,7 @@ here()
 setwd(here())
 
 #Arguments in the `here()` command allow easy navigation within subfolders
-filename <- here('Data','Raw','USGS_Site02085000_Flow_Raw.csv')
+filename <- here('Data/Raw/USGS_Site02085000_Flow_Raw.csv')
 print(filename)
 
 #See whether the file exists
@@ -79,6 +81,12 @@ print(filenames)
 
 # 1. Read the 'NTL-LTER_Lake_ChemistryPhysics_Raw.csv' into a dataframe
 
+usgs.flow.data.again <- read.csv(
+file=here ('Data','Raw','NTL-LTER_Lake_ChemistryPhysics_Raw.csv'),
+stringsAsFactors=TRUE
+)
+
+View(usgs.flow.data.again)
 
 # 2.
 
@@ -100,8 +108,8 @@ Remember formatting of dates in R:
 # Write code for three different date formats. 
 # An example is provided to get you started.
 # (code must be uncommented)
-today <- Sys.Date()
-format(today, format = "%B")
+today <- Sys.Date ()
+format(today, format = "%d %b %Y")
 #format(today, format = "")
 #format(today, format = "")
 #format(today, format = "")
@@ -120,7 +128,7 @@ library(lubridate)
 
 #Ex1
 str_today <- "2023-feb-7"
-#Since the format is year-month-day we will use function ymd()
+b#Since the format is year-month-day we will use function ymd()
 date_obj_today <- ymd(str_today)
 date_obj_today
 
@@ -132,15 +140,15 @@ date_obj_today
 
 #Ex_3 - on your own...
 str_juneteenth <- "19 June 1865"
-#Since the format is month-day-year we will use function mdy()
-#date_juneteenth <- ()
-#date_juneteenth
+
+date_juneteenth <- dmy(str_juneteenth)
+date_juneteenth
 ```
 ### The century issue
 
 What happens when you the year in your date column is represented by two digits? Is "55" 2055 or 1955?? Here we build code to deal with that issue. 
 
-```{r DateExercise2}
+```{r, DateExercise2}
 #century issue
 str_past <- "55-feb-3"
 date_obj_past <- ymd(str_past)
@@ -207,6 +215,8 @@ dim(sites)
 #Convert date column to date object
 sites$date <- ymd_hms(sites$date)
 
+View(sites)
+
 ```
 
 
@@ -260,7 +270,8 @@ A **factor** is a grouping variable: rows with the same value in the factor colu
 #### Plotting with factors
 ```{r plot samples recorded each day of the week}
 #Create a bar plot showing the count of samples by day of week
-ggplot(sites,aes(x=dow)) +
+ggplot(sites, aes(x=dow)) +
+  geom_bar(sites,aes(x=dow)) +
   geom_bar()
 ```
 
