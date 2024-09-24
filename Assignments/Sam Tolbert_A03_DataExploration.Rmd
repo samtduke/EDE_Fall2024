@@ -55,7 +55,7 @@ Litter <- read.csv( #opening and naming
 
 2.  The neonicotinoid dataset was collected from the Environmental Protection Agency's ECOTOX Knowledgebase, a database for ecotoxicology research. Neonicotinoids are a class of insecticides used widely in agriculture. The dataset that has been pulled includes all studies published on insects. Why might we be interested in the ecotoxicology of neonicotinoids on insects? Feel free to do a brief internet search if you feel you need more background information.
 
-> Answer: They are an inecticide that binds to the nerves of insects, causing them ot overstimulate and die. They are applied as a "drench" meaning 95% of what is applied ends up in the soil and eventually the water supply. It has been shown to have a negative effect on bees, who provide pollination and a vital part of plant life, as well as to vulnerable human population.
+> Answer: They are an insecticide that binds to the nerves of insects, causing them ot overstimulate and die. They are applied as a "drench" meaning 95% of what is applied ends up in the soil and eventually the water supply. It has been shown to have a negative effect on bees, who provide pollination and a vital part of plant life, as well as to vulnerable human population.
 
 3.  The Niwot Ridge litter and woody debris dataset was collected from the National Ecological Observatory Network, which collectively includes 81 aquatic and terrestrial sites across 20 ecoclimatic domains. 32 of these sites sample forest litter and woody debris, and we will focus on the Niwot Ridge long-term ecological research (LTER) station in Colorado. Why might we be interested in studying litter and woody debris that falls to the ground in forests? Feel free to do a brief internet search if you feel you need more background information.
 
@@ -165,19 +165,27 @@ Interpret this graph. What are the most common test locations, and do they diffe
 
 ```{r}
 
-Neonics_Bar <- ggplot(Neonics, aes(x=Endpoint)) + geom_bar()
+Neonics_Bar <- ggplot(Neonics, aes(x=Endpoint)) + geom_bar() + theme(axis.text.x = element_text(angle = -60, vjust = .5, hjust=.2))
 
 print(Neonics_Bar)
 
 ```
 
-> Answer:
+> Answer:The two most common endpoints are NOEL, defined as No-observable-effect-level: highest dose (concentration) producing effects not significantly different from responses of controls according to author's reported statistical test (NOEAL/NOEC) and LOEL, defined as Lowest-observable-effect-level: lowest dose (concentration) producing effects that were significantly different (as reported by authors) from responses of controls (LOEAL/LOEC).
 
 ## Explore your data (Litter)
 
 12. Determine the class of collectDate. Is it a date? If not, change to a date and confirm the new class of the variable. Using the `unique` function, determine which dates litter was sampled in August 2018.
 
 ```{r}
+
+#Litter$collectDate<-as.Date(Litter$collectDate, format="%Y-%m-%d") #base R OR
+
+library(lubridate)
+
+Litter$collectDate<- ymd(Litter$collectDate)
+
+unique(Litter$collectDate) #only two dates, 2018-08-02 and 2018-08-30
 
 
 ```
@@ -186,29 +194,48 @@ print(Neonics_Bar)
 
 ```{r}
 
+unique(Litter$plotID)
+
+summary(Litter$plotID)
 
 ```
 
-> Answer:
+> Answer: With unique() it will tell me the number of unique classes that I ask for, but summary of that class will list each one out (if there's not too many I can count) but also it will list the number of observations within each class
 
 14. Create a bar graph of functionalGroup counts. This shows you what type of litter is collected at the Niwot Ridge sites. Notice that litter types are fairly equally distributed across the Niwot Ridge sites.
 
 ```{r}
 
+Litter_functionalGroup <- ggplot(
+  data=Litter, aes(x=functionalGroup)) +
+  geom_bar()
+
+print(Litter_functionalGroup)
 
 ```
 
 15. Using `geom_boxplot` and `geom_violin`, create a boxplot and a violin plot of dryMass by functionalGroup.
 
 ```{r}
+Litter_dryMassBox <- ggplot(
+  data=Litter, aes(x=functionalGroup, y= dryMass)) +
+  geom_boxplot()
+
+print(Litter_dryMassBox)
+
+Litter_dryMassFiddle <- ggplot(
+  data=Litter, aes(x=functionalGroup, y= dryMass)) +
+  geom_violin()
+
+print(Litter_dryMassFiddle)  
 
 
 ```
 
 Why is the boxplot a more effective visualization option than the violin plot in this case?
 
-> Answer:
+> Answer: The box plot is more effective because it more effectivley conveys the range, in this case using y axis to try to convey the size of each range instead of the x. The violin plot uses the x axis instead of to convey the size of each indiviudal part of the range, and in this case the granularity doesn't create a ton of clarity.
 
 What type(s) of litter tend to have the highest biomass at these sites?
 
-> Answer:
+> Answer: Needles by a long shot.
