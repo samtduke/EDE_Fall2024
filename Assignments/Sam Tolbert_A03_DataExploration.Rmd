@@ -124,13 +124,20 @@ class(Neonics$Conc.1..Author.)
 
 ```
 
-> Answer: It is a factor. It is not numeric because ??
+> Answer: It is a factor. It is not numeric because mix of quantitive and qualitivate 
 
 ## Explore your data graphically (Neonics)
 
 9.  Using `geom_freqpoly`, generate a plot of the number of studies conducted by publication year.
 
 ```{r}
+
+Neonics_Frequency<-ggplot(Neonics) + 
+  geom_freqpoly (aes(x=Publication.Year)
+)
+
+print(Neonics_Frequency)
+
 
 
 ```
@@ -139,12 +146,18 @@ class(Neonics$Conc.1..Author.)
 
 ```{r}
 
+Neonics_Frequency<- ggplot(Neonics) + 
+  geom_freqpoly (aes(x=Publication.Year, color= Test.Location), bins=25
+)
+
+print(Neonics_Frequency)
+
 
 ```
 
 Interpret this graph. What are the most common test locations, and do they differ over time?
 
-> Answer:
+> Answer:The most common test location recently is Lab, however there are peroids (~1992-2002, 2008-2010)  were "field natural" was the most common
 
 11. Create a bar graph of Endpoint counts. What are the two most common end points, and how are they defined? Consult the ECOTOX_CodeAppendix for more information. 
 
@@ -152,6 +165,9 @@ Interpret this graph. What are the most common test locations, and do they diffe
 
 ```{r}
 
+Neonics_Bar <- ggplot(Neonics, aes(x=Endpoint)) + geom_bar()
+
+print(Neonics_Bar)
 
 ```
 
