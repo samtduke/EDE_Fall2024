@@ -64,9 +64,9 @@ Litter <- read.csv( #opening and naming
 4.  How is litter and woody debris sampled as part of the NEON network? Read the NEON_Litterfall_UserGuide.pdf document to learn more. List three pieces of salient information about the sampling methods here:
 
 > Answer: 
- 1. 
- 2.
- 3. 
+ 1. Litter is collected from high and low traps  
+ 2.In this protocol, litter is defined as material that is dropped from the forest canopy and has a butt end diameter <2cm and a length <50 cm  
+ 3. Locations of tower plots are selected randomly within the 90% flux footprint of the primary and secondary airsheds
 
 ## Obtain basic summaries of your data (Neonics)
 
@@ -165,7 +165,9 @@ Interpret this graph. What are the most common test locations, and do they diffe
 
 ```{r}
 
-Neonics_Bar <- ggplot(Neonics, aes(x=Endpoint)) + geom_bar() + theme(axis.text.x = element_text(angle = -60, vjust = .5, hjust=.2))
+Neonics_Bar <- ggplot(Neonics, aes(x=Endpoint)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle = -60, vjust = .5, hjust=.2))
 
 print(Neonics_Bar)
 
