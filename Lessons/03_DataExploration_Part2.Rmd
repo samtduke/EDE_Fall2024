@@ -92,19 +92,19 @@ Visualize distributions of values for continuous numerical variables. What is ha
 
 ```{r, fig.height = 3, fig.width = 4}
 # 
-ggplot(USGS.flow.data) +
+ggplot(USGS.flow.data.complete) +
   geom_histogram(aes(x = discharge.mean))
 
 # 
-ggplot(USGS.flow.data) +
+ggplot(USGS.flow.data.complete) +
   geom_histogram(aes(x = discharge.mean), binwidth = 100)
 
 # 
-ggplot(USGS.flow.data) +
+ggplot(USGS.flow.data.complete) +
   geom_histogram(aes(x = discharge.mean), bins = 200)
 
 # 
-ggplot(USGS.flow.data, aes(x = discharge.mean)) +
+ggplot(USGS.flow.data.complete, aes(x = discharge.mean)) +
   geom_histogram(binwidth = 10) + 
   scale_x_continuous(limits = c(0, 100))
   
