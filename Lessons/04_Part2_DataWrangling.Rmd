@@ -16,7 +16,7 @@ editor_options:
 
 ```{r setup workspace, message = FALSE}
 getwd()
-#library(plyr)
+library(plyr)
 library(tidyverse)
 library(lubridate)
 NTL.phys.data.PeterPaul <- read.csv("./Data/Processed/NTL-LTER_Lake_ChemistryPhysics_PeterPaul_Processed.csv")
@@ -33,7 +33,7 @@ summary(NTL.phys.data.PeterPaul$comments)
 class(NTL.phys.data.PeterPaul$sampledate)
 
 # Format sampledate as date
-NTL.phys.data.PeterPaul$sampledate <- as.Date(NTL.phys.data.PeterPaul$sampledate, format = "%Y-%m-%d")
+NTL.phys.data.PeterPaul$sampledate <- ymd(NTL.phys.data.PeterPaul$sampledate)
 
 # Select Peter and Paul Lakes from the nutrient dataset
 NTL.nutrient.data.PeterPaul <- filter(NTL.nutrient.data, lakename == "Paul Lake" | lakename == "Peter Lake")
@@ -48,12 +48,12 @@ NTL.nutrient.data.PeterPaul <- droplevels(NTL.nutrient.data.PeterPaul)
 summary(NTL.nutrient.data.PeterPaul$lakename)
 summary(NTL.nutrient.data.PeterPaul$comments)
 class(NTL.nutrient.data.PeterPaul$sampledate)
-NTL.nutrient.data.PeterPaul$sampledate <- as.Date(NTL.nutrient.data.PeterPaul$sampledate, format = "%m/%d/%y")
+NTL.nutrient.data.PeterPaul$sampledate <- mdy(NTL.nutrient.data.PeterPaul$sampledate)
 
 NTL.nutrient.data.PeterPaul <- 
   NTL.nutrient.data.PeterPaul %>% #
   mutate(month = month(sampledate)) %>% #
-  select(lakeid:daynum, month, sampledate:comments) %>% # 
+  select(lakeid:daynum, month, sampledate:comments) %>%  
   drop_na(depth)
 
 # Save processed nutrient file
@@ -66,6 +66,8 @@ NTL.phys.data.PeterPaul.subset <- select(NTL.phys.data.PeterPaul,
   
 NTL.nutrient.data.PeterPaul.subset <- select(NTL.nutrient.data.PeterPaul, 
                                              lakename, year4, daynum, month, sampledate, depth:po4)
+
+
 
 # write a more succinct line of code to subset the nutrient dataset. 
 
