@@ -29,20 +29,57 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Wr
 
 2. Add the appropriate code to reveal the dimensions of the four datasets. 
 
-```{r setup, message = FALSE}
+```{r, setup, include=FALSE}
+knitr::opts_knit$set(root.dir = '/home/guest/EDA Fall 2024') #having a lot
+#of trouble with the home() package, sourced this code online for me to 
+#manually reset the home away from assignments
+
 #1a 
+library(tidyverse)
+library(lubridate)
+library(here)
 
 #1b 
 
+getwd()
+setwd("/home/guest/EDA Fall 2024")
+
 #1c 
 
+EPAir_O3_18 <- read.csv(
+  file = ("./Data/Raw/EPAair_O3_NC2018_raw.csv"),
+  stringsAsFactors = TRUE
+)
+
+EPAir_O3_19 <- read.csv(
+  file = ("./Data/Raw/EPAair_O3_NC2019_raw.csv"),
+  stringsAsFactors = TRUE
+)
+
+EPAir_PM25_18 <- read.csv(
+  file = ("./Data/Raw/EPAair_PM25_NC2018_raw.csv"),
+  stringsAsFactors = TRUE
+)
+
+EPAir_PM25_19 <- read.csv(
+  file = ("./Data/Raw/EPAair_PM25_NC2019_raw.csv"),
+  stringsAsFactors = TRUE
+)
+
+
 #2 
+
+dim(EPAir_O3_18)
+dim(EPAir_O3_19)
+dim(EPAir_PM25_18)
+dim(EPAir_PM25_19)
 
 
 ```
 
 >All four datasets should have the same number of columns but unique record counts (rows). Do your datasets follow this pattern?
 
+Yes.
 
 ## Wrangle individual datasets to create processed files.
 
@@ -57,14 +94,34 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Wr
 ```{r questions 3 thru 4}
 #3
 
+EPAir_O3_18$Date<-mdy(EPAir_O3_18$Date)
+EPAir_O3_19$Date<-mdy(EPAir_O3_19$Date)
+EPAir_PM25_18$Date<-mdy(EPAir_PM25_18$Date)
+EPAir_PM25_19$Date<-mdy(EPAir_PM25_19$Date)
+
 
 #4
+
+EPAir_O3_18_Processed<- EPAir_O3_18 %>% select(Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+
+EPAir_O3_19_Processed<- EPAir_O3_19 %>% select(Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+
+EPAir_PM25_18_Processed<- EPAir_PM25_18 %>% select(Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+
+EPAir_PM25_19_Processed<- EPAir_PM25_19 %>% select(Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
 
 
 #5
 
+EPAir_PM25_18_Processed <- mutate(EPAir_PM25_18_Processed, AQS_PARAMETER_DESC = 'PM2.5')
+EPAir_PM25_19_Processed <- mutate(EPAir_PM25_19_Processed, AQS_PARAMETER_DESC = 'PM2.5')
 
 #6
+
+write.csv(EPAir_O3_18_Processed, row.names=FALSE, file="./Data/Processed/EPAair_O13_NC2018_processed.csv")
+write.csv(EPAir_O3_19_Processed, row.names=FALSE, file="./Data/Processed/EPAair_013_NC2019_processed.csv")
+write.csv(EPAir_PM25_18_Processed, row.names=FALSE, file="./Data/Processed/EPAair_PM25_NC2018_processed.csv")
+write.csv(EPAir_PM25_19_Processed, row.names=FALSE, file="./Data/Processed/EPAair_PM25_NC2019_processed.csv")
 
 ```
 
@@ -98,6 +155,13 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Wr
 
 ```{r questions 7 thru 11}
 #7 
+
+colnames(EPAir_O3_18_Processed)
+colnames(EPAir_O3_19_Processed)
+colnames(EPAir_PM25_18_Processed)
+colnames(EPAir_PM25_19_Processed) #checking on column names being the same
+
+
 
 
 #8 
