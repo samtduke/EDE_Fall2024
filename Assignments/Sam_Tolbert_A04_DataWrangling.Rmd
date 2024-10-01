@@ -185,6 +185,11 @@ EPAir_Combo_Processed <- EPAir_Combo %>%
 
 #9
 
+EPAir_Combo_Processed_AQI <- EPAir_Combo_Processed %>% pivot_wider(
+  names_from = AQS_PARAMETER_DESC,
+  values_from = AQS_PARAMETER_DESC
+)
+  
 
 
 
