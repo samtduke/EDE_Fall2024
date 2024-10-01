@@ -38,6 +38,7 @@ knitr::opts_knit$set(root.dir = '/home/guest/EDA Fall 2024') #having a lot
 library(tidyverse)
 library(lubridate)
 library(here)
+library (dplyr)
 
 #1b 
 
@@ -164,10 +165,29 @@ colnames(EPAir_PM25_19_Processed) #checking on column names being the same
 
 
 
-#8 
 
+
+EPAir_Combo <- rbind(EPAir_O3_18_Processed, EPAir_O3_19_Processed, EPAir_PM25_18_Processed, EPAir_PM25_19_Processed)
+
+#8
+
+EPAir_Combo_Processed <- EPAir_Combo %>%
+  filter(Site.Name == 'Linville Falls' | Site.Name == 'Durham Armory' | Site.Name == 'Leggett' | Site.Name == 'Hattie Avenue' | Site.Name == 'Clemmons Middle' | Site.Name == 'Mendenhall School' | Site.Name == 'Frying Pan Mountain' | Site.Name == 'West Johnston Co.' | Site.Name == 'Garinger High School' | Site.Name == 'Castle Hayne' | Site.Name == 'Pitt Agri. Center' | Site.Name == 'Bryson City' | Site.Name == 'Millbrook School' ) %>% 
+  group_by(Date, Site.Name, AQS_PARAMETER_DESC, COUNTY) %>% 
+    summarize(
+    Mean_AQI = mean(DAILY_AQI_VALUE),
+    Mean_Latitude = mean(SITE_LATITUDE),
+    Mean_Longitude = mean(SITE_LONGITUDE)
+    ) %>% 
+   mutate(
+    Month=month(Date),
+    Year=year(Date))
 
 #9
+
+
+
+
 
 
 #10
