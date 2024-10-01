@@ -103,26 +103,36 @@ EPAir_PM25_19$Date<-mdy(EPAir_PM25_19$Date)
 
 #4
 
-EPAir_O3_18_Processed<- EPAir_O3_18 %>% select(Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+EPAir_O3_18_Processed<- EPAir_O3_18 %>% select(Date, DAILY_AQI_VALUE, Site.Name, 
+            AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
 
-EPAir_O3_19_Processed<- EPAir_O3_19 %>% select(Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+EPAir_O3_19_Processed<- EPAir_O3_19 %>% select(Date, DAILY_AQI_VALUE, Site.Name,
+           AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
 
-EPAir_PM25_18_Processed<- EPAir_PM25_18 %>% select(Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+EPAir_PM25_18_Processed<- EPAir_PM25_18 %>% select(Date, DAILY_AQI_VALUE,
+         Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
 
-EPAir_PM25_19_Processed<- EPAir_PM25_19 %>% select(Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+EPAir_PM25_19_Processed<- EPAir_PM25_19 %>% select(Date, DAILY_AQI_VALUE,
+          Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
 
 
 #5
 
-EPAir_PM25_18_Processed <- mutate(EPAir_PM25_18_Processed, AQS_PARAMETER_DESC = 'PM2.5')
-EPAir_PM25_19_Processed <- mutate(EPAir_PM25_19_Processed, AQS_PARAMETER_DESC = 'PM2.5')
+EPAir_PM25_18_Processed <- mutate(EPAir_PM25_18_Processed, 
+                        AQS_PARAMETER_DESC = 'PM2.5')
+EPAir_PM25_19_Processed <- mutate(EPAir_PM25_19_Processed, 
+                        AQS_PARAMETER_DESC = 'PM2.5')
 
 #6
 
-write.csv(EPAir_O3_18_Processed, row.names=FALSE, file="./Data/Processed/EPAair_O13_NC2018_processed.csv")
-write.csv(EPAir_O3_19_Processed, row.names=FALSE, file="./Data/Processed/EPAair_013_NC2019_processed.csv")
-write.csv(EPAir_PM25_18_Processed, row.names=FALSE, file="./Data/Processed/EPAair_PM25_NC2018_processed.csv")
-write.csv(EPAir_PM25_19_Processed, row.names=FALSE, file="./Data/Processed/EPAair_PM25_NC2019_processed.csv")
+write.csv(EPAir_O3_18_Processed, row.names=FALSE,
+          file="./Data/Processed/EPAair_O13_NC2018_processed.csv")
+write.csv(EPAir_O3_19_Processed, row.names=FALSE, 
+          file="./Data/Processed/EPAair_013_NC2019_processed.csv")
+write.csv(EPAir_PM25_18_Processed, row.names=FALSE, 
+          file="./Data/Processed/EPAair_PM25_NC2018_processed.csv")
+write.csv(EPAir_PM25_19_Processed, row.names=FALSE, 
+          file="./Data/Processed/EPAair_PM25_NC2019_processed.csv")
 
 ```
 
@@ -163,42 +173,45 @@ colnames(EPAir_PM25_18_Processed)
 colnames(EPAir_PM25_19_Processed) #checking on column names being the same
 
 
-
-
-
-
-EPAir_Combo <- rbind(EPAir_O3_18_Processed, EPAir_O3_19_Processed, EPAir_PM25_18_Processed, EPAir_PM25_19_Processed)
+EPAir_Combo <- rbind(EPAir_O3_18_Processed, EPAir_O3_19_Processed, 
+  EPAir_PM25_18_Processed, EPAir_PM25_19_Processed) #combining the data frames
 
 #8
 
-EPAir_Combo_Processed <- EPAir_Combo %>%
-  filter(Site.Name == 'Linville Falls' | Site.Name == 'Durham Armory' | Site.Name == 'Leggett' | Site.Name == 'Hattie Avenue' | Site.Name == 'Clemmons Middle' | Site.Name == 'Mendenhall School' | Site.Name == 'Frying Pan Mountain' | Site.Name == 'West Johnston Co.' | Site.Name == 'Garinger High School' | Site.Name == 'Castle Hayne' | Site.Name == 'Pitt Agri. Center' | Site.Name == 'Bryson City' | Site.Name == 'Millbrook School' ) %>% 
-  group_by(Date, Site.Name, AQS_PARAMETER_DESC, COUNTY) %>% 
+EPAir_Combo_Processed <- EPAir_Combo %>% #data im wrangling
+  filter(Site.Name == 'Linville Falls' | Site.Name == 'Durham Armory' 
+         | Site.Name == 'Leggett' | Site.Name == 'Hattie Avenue' 
+         | Site.Name == 'Clemmons Middle' | Site.Name == 'Mendenhall School' 
+         | Site.Name == 'Frying Pan Mountain' | Site.Name == 'West Johnston Co.' 
+         | Site.Name == 'Garinger High School' | Site.Name == 'Castle Hayne' 
+         | Site.Name == 'Pitt Agri. Center' | Site.Name == 'Bryson City' 
+         | Site.Name == 'Millbrook School' ) %>% 
+  group_by(Date, Site.Name, AQS_PARAMETER_DESC, COUNTY) %>%  #grouping in order
     summarize(
-    Mean_AQI = mean(DAILY_AQI_VALUE),
+    Mean_AQI = mean(DAILY_AQI_VALUE), #summarizing to find these mean rows
     Mean_Latitude = mean(SITE_LATITUDE),
     Mean_Longitude = mean(SITE_LONGITUDE)
     ) %>% 
    mutate(
     Month=month(Date),
-    Year=year(Date))
+    Year=year(Date)) #creating columns for month and year
 
 #9
 
 EPAir_Combo_Processed_AQI <- EPAir_Combo_Processed %>% pivot_wider(
-  names_from = AQS_PARAMETER_DESC,
-  values_from = AQS_PARAMETER_DESC
+  names_from = AQS_PARAMETER_DESC, #02 and PM2.5
+  values_from = Mean_AQI #AQI for those new columns
 )
   
 
-
-
-
-
 #10
 
+dim(EPAir_Combo_Processed_AQI)
 
 #11
+
+write.csv(EPAir_Combo_Processed_AQI, row.names = FALSE, file =
+'./Data/Processed/EPAair_O3_PM25_NC1819_Processed.csv')
 
 
 ```
@@ -214,8 +227,18 @@ EPAir_Combo_Processed_AQI <- EPAir_Combo_Processed %>% pivot_wider(
 
 #12
 
+EPAir_Combo_Processed_AQI_Summary <- EPAir_Combo_Processed_AQI %>% 
+  group_by(Site.Name, Month, Year) %>% 
+  summarize(
+    mean_O3= mean(Ozone),
+    mean_PM2.5= mean(PM2.5)) %>% 
+              drop_na (mean_O3)
+
+
 
 #13
+
+dim(EPAir_Combo_Processed_AQI_Summary)
 
 
 
@@ -223,5 +246,5 @@ EPAir_Combo_Processed_AQI <- EPAir_Combo_Processed %>% pivot_wider(
 
 14. Why did we use the function `drop_na` rather than `na.omit`? Hint: replace `drop_na` with `na.omit` in part 12 and observe what happens with the dimensions of the summary date frame.
 
-> Answer: 
+> Answer:  drop_na has dimensions 182 x 5 while na.omit has 101 x 5 because na.omit will delete the entire row if any na is present, instead of targeting the rows, leading to deleting more rows than I actually want
 
