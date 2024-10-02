@@ -29,7 +29,8 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Wr
 
 2. Add the appropriate code to reveal the dimensions of the four datasets. 
 
-```{r, setup, include=FALSE}
+```{r, setup}
+
 knitr::opts_knit$set(root.dir = '/home/guest/EDA Fall 2024') #having a lot
 #of trouble with the home() package, sourced this code online for me to 
 #manually reset the home away from assignments

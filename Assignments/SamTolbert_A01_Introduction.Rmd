@@ -1,13 +1,12 @@
 ---
 title: "Assignment 1: Introduction"
-author: "Sam Tolbert"
+author: "Student Name"
 output: pdf_document
 ---
 
 ## OVERVIEW
 
 This exercise accompanies the introductory material in Environmental Data Analytics. 
-
 
 ## Directions
 1.  Rename this file `<FirstLast>_A01_Introduction.Rmd` (replacing `<FirstLast>` with your first and last name).
@@ -23,22 +22,22 @@ Enter answers to the questions just below the >Answer: prompt.
 
 1. What are your previous experiences with data analytics, R, and Git? Include both formal and informal training.
 
-> Answer: None! I know a little HTML, but no R or Git
+> Answer: 
 
 2. Are there any components of the course about which you feel confident?
 
-> Answer: I have foreign language learning experience, so coding feels like its just another language.
+> Answer: 
 
 3. Are there any components of the course about which you feel apprehensive?
 
-> Answer: I have never coded in depth before, need to become familair with the machine, etc.
+> Answer: 
 
 
 ## 2) GitHub
 
 Provide a link below to your forked course repository in GitHub. Make sure you have pulled all recent changes from the course repository and that you have updated your course README file, committed those changes, and pushed them to your GitHub account. 
 
-> Answer: https://github.com/samtduke/EDE_Fall2024/tree/main
+> Answer: 
 
 ## 3) Knitting
 When you have completed this document, click the `knit` button.This should produce a PDF copy of your markdown document. Submit this PDF to Canvas 
