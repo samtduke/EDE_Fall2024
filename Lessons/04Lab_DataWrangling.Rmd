@@ -161,6 +161,12 @@ NTL.phys.data_Longer <- pivot_longer(NTL.phys.data,irradianceWater:irradianceDec
 
 #Exercise 6: Spread temperatureC into more than one column based on the depth.
 
+Ex6 <- NTL.phys.data %>%
+  pivot_wider(
+    id_cols = sampledate,
+    names_from = depth,
+    values_from = temperature_C
+  )
 
 
 ```
