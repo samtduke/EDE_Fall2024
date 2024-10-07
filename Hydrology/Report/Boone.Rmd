@@ -8,17 +8,14 @@ output:
 output_dir: "Hydrology/Report"
 ---
 
-```{r setup}
+```{r setep}
 knitr::opts_chunk$set(echo = FALSE)
-
-# Load necessary libraries
-
 
 ```
 
 Initial Set-Up
 
-```{r, echo=TRUE}
+```{r initialize project}
 
 library(dplyr)
 library(ggplot2)
@@ -201,7 +198,7 @@ to pre-2000 and post-2000 date, filtering data to give a 16 year
 year window pre/post 2000.
 
 
-```{r}
+```{r, echo=TRUE}
 Boone_Seasonal_Averages_Modified <- Boone_Seasonal_Averages %>%
   filter(year >= 1984 & year <= 2016) #creating a data set from 1984-2016
 
