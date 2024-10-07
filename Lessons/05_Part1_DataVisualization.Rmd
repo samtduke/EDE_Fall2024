@@ -20,7 +20,7 @@ Effective data visualization depends on purposeful choices about graph types. Th
 
 ```{r, message = FALSE, warning = FALSE}
 library(tidyverse);library(lubridate);library(here)
-library(ggridges)
+#install.packages(ggridges)
 
 here()
 
@@ -81,19 +81,22 @@ Here are some commonly used aesthetic types that can be manipulated in ggplot:
 ggplot(EPAair, aes(x = Date, y = Ozone)) + 
   geom_point()
 
+ggplot(EPAair, aes(x = Date, y = Ozone)) +
+  geom
+
 O3plot <- ggplot(EPAair) +
   geom_point(aes(x = Date, y = Ozone))
 print(O3plot)
 
 # Fix this code
 O3plot2 <- ggplot(EPAair) +
-  geom_point(aes(x = Date, y = Ozone, color = "blue"))
+  geom_point(aes(x = Date, y = Ozone), color = "blue")
 print(O3plot2)
 
 # Add additional variables
 # How could you automatically assign a marker color to a variable? 
 PMplot <- 
-  ggplot(EPAair, aes(x = Month, y = PM2.5, shape = as.factor(Year), color = Site.Name)) +
+  ggplot(EPAair, aes(x = Month, y = PM2.5, shape = as.factor(Month), color = Site.Name)) +
   geom_point()
 print(PMplot)
 
@@ -143,8 +146,8 @@ print(lightvsDOfixed)
 
 # Depth in the fields of limnology and oceanography is on a reverse scale
 tempvsdepth <- 
-  ggplot(PeterPaul.chem.nutrients, aes(x = temperature_C, y = depth)) +
-  #ggplot(PeterPaul.chem.nutrients, aes(x = temperature_C, y = depth, color = daynum)) +
+  #ggplot(PeterPaul.chem.nutrients, aes(x = temperature_C, y = depth)) +
+  ggplot(PeterPaul.chem.nutrients, aes(x = temperature_C, y = depth, color = daynum)) +
   geom_point() +
   scale_y_reverse()
 print(tempvsdepth)
@@ -206,7 +209,7 @@ print(Nutrientplot7)
 # Ridgeline plot
 Nutrientplot6 <-
   ggplot(PeterPaul.chem.nutrients.gathered, aes(y = nutrient, x = concentration)) +
-  geom_density_ridges(aes(fill = lakename), alpha = 0.5) #
+  geom_density_ridges(aes(color = lakename), alpha = 0.5) #
 print(Nutrientplot6)
 
 
