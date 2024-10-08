@@ -36,7 +36,7 @@ Greensboro_Processed <- Greensboro_Processed %>%
 **All code was produced in conversation with R Wizard GPT. Prompts included in code where relevant.
 ----
 
-The first analysis we can run is finding large scale trends within the precipitation data. Using the HUC data, we found that a general increase in annual precipitation. We find that from 1980 to 2016 there has been a steady increase in the annual mean precipitation.
+The first analysis we can run is finding large scale trends within the precipitation data. Using the HUC data, we found a constant trend in annual precipitation from 1980-2016
 
 
 ```{r}
@@ -64,7 +64,7 @@ ggplot(Greensboro_Annual_Averages, aes(x = year, y = annual_avg_precip)) +
 ```
 
 
-While this general trend is useful, in regard to infrastructure, it is vital to know if this precipitation is evenly distributed throughout the year, is concentrated in larger, predictable hurricane systems (Hurricane Season defined by the State of North Carolina as June 1-November 30) or the less predictable, smaller frontal systems throughout the rest of the year. We find that the rainest months occur during Hurricane season, with July, September, and June being the rainiest months.
+While this general trend is useful, in regard to infrastructure, it is vital to know if this precipitation is evenly distributed throughout the year, is concentrated in larger, predictable hurricane systems (Hurricane Season defined by the State of North Carolina as June 1-November 30) or the less predictable, smaller frontal systems throughout the rest of the year. We find that the rainest months occur during Hurricane season, with July, September, and March being the rainiest months.
 
 ```{r}
 
@@ -85,9 +85,6 @@ ggplot(Greensboro_Monthly_Averages_AllYears, aes(x = factor(month), y = monthly_
        y = "Average Precipitation (mm)") +
   theme_minimal() +
   scale_x_discrete(labels = month.name)  # Adding month names to the x-axis
-
-
-
 
 
 ```
@@ -157,7 +154,7 @@ ggplot(Greensboro_Seasonal_Averages, aes(x = year, y = avg_precip, fill = Season
 ```
 
 
-This graph makes it apparent that Hurricane Season has been steadily increasing in terms of mean precipation in the last 36 years, while frontal precipation has been staying flat. Combining this with our previous analysis, we can assume that the majority of the annual precipitation increases are due to increased intensities and rainfall of hurricane systems, rather than frontal systems.
+This graph makes it apparent that despite the constant trend in precipitation, Hurricane Season has been steadily increasing in terms of mean precipation in the last 36 years, while frontal precipation has been decreasing. Combining this with our previous analysis, we can assume that the majority of the despite constant trends in precipitation, hurricane season is becoming heavier due to increased intensities and rainfall of hurricane systems, rather than frontal systems.
 
 Here are those graphs again, side by side:
 
@@ -187,23 +184,6 @@ ggplot(Greensboro_Seasonal_Averages, aes(x = year, y = avg_precip, color = Seaso
 
 ```
 
-These increasingly uneven trends become even more apparent when we give equal weight to pre-2000 and post-2000 data, filtering data to give a 16-year year window pre/post 2000.
-
-```{r}
-
-Greensboro_Seasonal_Averages_Modified <- Greensboro_Seasonal_Averages %>%
-  filter(year >= 1984 & year <= 2016) #creating a data set from 1984-2016
-
-# Plot with separate regression lines for each season (1984-2016)
-ggplot(Greensboro_Seasonal_Averages_Modified, aes(x = year, y = avg_precip)) +
-  geom_bar(stat = "identity", fill = "steelblue") +  # Bar plot for average precipitation
-  geom_smooth(method = "lm", se = FALSE, color = "red") +  # Add linear regression line
-  facet_wrap(~ Season) +  # Facet by season ("Hurricane Season" and "Frontal")
-  labs(title = "Seasonal Precipitation Trends (1984-2016)",
-       x = "Year",
-       y = "Average Precipitation (mm)") +
-  theme_minimal()
-```
 
 
 
