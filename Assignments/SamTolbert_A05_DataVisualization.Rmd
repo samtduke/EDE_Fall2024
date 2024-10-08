@@ -75,7 +75,7 @@ Sam_Theme<-theme(
   panel.grid.major = element_line (color ="lightblue"),
   panel.grid.minor = element_line (color= "lightblue"),
   
-  plot.title= element_text(size= 16, face= "bold"),
+  plot.title= element_text(size= 16, hjust=.5),
 )
 
 ```
@@ -116,6 +116,7 @@ Tips:
 
 Peter.Paul.ChemistryNutrients$month<-as.factor(Peter.Paul.ChemistryNutrients$month)
 
+
 PPTemp<-Peter.Paul.ChemistryNutrients %>% 
   ggplot(aes(x=month,
              y=temperature_C,
@@ -154,8 +155,6 @@ PPTpug,
 print(CombinedPPDataGrid)
                               
     
-
-
 ```
 
 Question: What do you observe about the variables of interest over seasons and between lakes? 
@@ -168,9 +167,32 @@ Question: What do you observe about the variables of interest over seasons and b
 
 ```{r Plot litter}
 #6
+NEON.LitterMass_OnlyNeedles<-NEON.LitterMass %>% 
+                                filter(functionalGroup=="Needles")
 
+NEON.Scatter<-NEON.LitterMass_OnlyNeedles %>% 
+  ggplot(aes(x=collectDate,
+             y= dryMass,
+             color=nlcdClass))+
+  geom_point()+
+  labs(color ="nlcd Class",
+       y="Dry Mass",
+       x= "Collect Date"
+       )+
+  scale_x_date(date_breaks = "6 months", date_labels = "%m/%Y")+
+  scale_color_manual(
+    values= c("evergreenForest"= "red", "grasslandHerbaceous"="green", "shrubScrub"= "blue" ),
+    labels= c("Evergreen Forest", "Grassland/Herbaceous", "Shrub/Scrub")
+)+
+    theme(
+      axis.text.x = element_text(angle=45, hjust=1))
+  
+print(NEON.Scatter)
+           
 
 #7
+
+
 
 
 ```
