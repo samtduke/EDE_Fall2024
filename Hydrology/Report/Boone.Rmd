@@ -4,7 +4,7 @@ author: "Sam Tolbert"
 date: "2024-10-02"
 output: 
   pdf_document:
-    toc: true
+    toc: false
 output_dir: "Hydrology/Report"
 ---
 
@@ -35,7 +35,7 @@ Boone_Processed <- Boone_Processed %>%
 
 ```
 
-**All code was produced in conversation with R Wizard GPT. Prompts included
+*All code was produced in conversation with R Wizard GPT. Prompts included
 in code where relevant.
 
 ----

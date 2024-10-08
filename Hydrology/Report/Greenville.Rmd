@@ -4,7 +4,7 @@ author: "Sam Tolbert"
 date: "2024-10-02"
 output: 
   pdf_document:
-    toc: true  # Optional: Adds a table of contents
+    toc: false  # Optional: Adds a table of contents
 output_dir: "Hydrology/Report"
 ---
 
@@ -33,7 +33,7 @@ Greenville_Processed <- Greenville_Processed %>%
   mutate(Date = as.Date(Date))
 ```
 
-**All code was produced in conversation with R Wizard GPT. Prompts included in code where relevant.
+All code was produced in conversation with R Wizard GPT. Prompts included in code where relevant.
 ----
 
 The first analysis we can run is finding large scale trends within the precipitation data. Using the HUC data, we found that a general increase in annual precipitation. We find that from 1980 to 2016 there has been a steady increase in the annual mean precipitation.
