@@ -42,7 +42,6 @@ The first analysis we can run is finding large scale trends within the precipita
 ```{r}
 
 
-
 # First, we isolate the means of each year:
 Greensboro_Annual_Averages <- Greensboro_Processed %>%
   filter(year >= 1980 & year <= 2016) %>%
@@ -83,7 +82,9 @@ ggplot(Greensboro_Monthly_Averages_AllYears, aes(x = factor(month), y = monthly_
   labs(title = "Average Monthly Precipitation (1980-2016)",
        x = "Month",
        y = "Average Precipitation (mm)") +
-  theme_minimal() +
+  theme_minimal() + theme(
+    axis.text.x = element_text(angle=45, 
+                               hjust=1))+
   scale_x_discrete(labels = month.name)  # Adding month names to the x-axis
 
 
@@ -106,7 +107,11 @@ ggplot(Greensboro_Monthly_Averages, aes(x = factor(month), y = monthly_avg_preci
   labs(title = "Monthly Average Precipitation (1980-2016)",
        x = "Month",
        y = "Average Precipitation (mm)") +
-  theme_minimal() +
+  theme_minimal() + 
+  theme(
+    axis.text.x = element_text(
+      angle=45, 
+      hjust=1))+
   scale_fill_viridis_d(name = "Year") +
   scale_x_discrete(labels = month.name)  # Adding month names to the x-axis
 

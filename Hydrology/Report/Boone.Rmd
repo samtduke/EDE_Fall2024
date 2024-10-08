@@ -89,7 +89,10 @@ ggplot(Boone_Monthly_Averages_AllYears, aes(x = factor(month), y = monthly_avg_p
   labs(title = "Average Monthly Precipitation (1980-2016)",
        x = "Month",
        y = "Average Precipitation (mm)") +
-  theme_minimal() +
+  theme_minimal() + 
+  theme(axis.text.x = element_text(
+    angle=45, 
+    hjust=1))+
   scale_x_discrete(labels = month.name)  # Adding month names to the x-axis
 
 ```
@@ -112,7 +115,10 @@ ggplot(Boone_Monthly_Averages, aes(x = factor(month), y = monthly_avg_precip, fi
   labs(title = "Monthly Average Precipitation (1980-2016)",
        x = "Month",
        y = "Average Precipitation (mm)") +
-  theme_minimal() +
+  theme_minimal() + 
+  theme(axis.text.x = 
+        element_text(angle=45, 
+                     hjust=1))+
   scale_fill_viridis_d(name = "Year") +
   scale_x_discrete(labels = month.name)  # Adding month names to the x-axis
 
@@ -220,75 +226,3 @@ ggplot(Boone_Seasonal_Averages_Modified, aes(x = year, y = avg_precip)) +
 This leads us to begin to want to track the temporal changes, not just the
 seasonal. How have intensities altered intra season since date started being
 collected?
-
-
-```{r, Hazen Mutuate, echo=TRUE}
-
-
-# Load necessary libraries
-library(dplyr)
-library(lubridate)
-
-# Assuming the data is already loaded into Boone
-
-# Create new columns for year if not already present
-Boone_Data <- Boone_Data %>%
-  mutate(Date = as.Date(Date))  # Ensure the Date column is in Date format
-
-# Function to calculate Fa (Return Period) using the Hazen Equation
-# n is the rank and y is the total number of observations
-calc_fa <- function(n, y) {
-  return(100 * (2 * n - 1) / (2 * y))
-}
-
-# Filter for data between 1980-01-01 and 2000-12-31 (daily resolution)
-Boone_filtered_19802000 <- Boone_Data %>%
-  filter(Date >= as.Date("1980-01-01") & Date <= as.Date("2000-12-31"))
-
-# Rank the precipitation data for 1980-2000 in descending order (highest to lowest)
-Boone_Hazen_Mutate_19802000 <- Boone_filtered_19802000 %>%
-  arrange(desc(`Area.Weighted.Mean.Precipitation..mm.per.day.`)) %>%
-  mutate(
-    rank = row_number(),  # Assign ranks where 1 is the highest precipitation
-    Fa = calc_fa(rank, n())  # Calculate Fa using Hazen Equation
-  ) %>%
-  mutate(likelihood_event = 100 / Fa)  # Add likelihood column
-
-# Filter for data between 2000-01-01 and 2016-12-31 (daily resolution)
-Boone_filtered_20002016 <- Boone_Data %>%
-  filter(Date >= as.Date("2000-01-01") & Date <= as.Date("2016-12-31"))
-
-# Rank the precipitation data for 2000-2016 in descending order (highest to lowest)
-Boone_Hazen_Mutate_20002016 <- Boone_filtered_20002016 %>%
-  arrange(desc(`Area.Weighted.Mean.Precipitation..mm.per.day.`)) %>%
-  mutate(
-    rank = row_number(),  # Assign ranks where 1 is the highest precipitation
-    Fa = calc_fa(rank, n())  # Calculate Fa using Hazen Equation
-  ) %>%
-  mutate(likelihood_event = 100 / Fa)  # Add likelihood column
-
-
-
-
-
-```
-
-
-heatmap at the bottom because it looks cool but I don't think we ultimately need?
-```{r}
-
-
-
-Boone_Heatmap_Data <- Boone_Processed %>%
-  group_by(year, month) %>%
-  summarize(monthly_avg_precip = mean(Precipitation_mm, na.rm = TRUE))
-
-ggplot(Boone_Heatmap_Data, aes(x = year, y = factor(month), fill = monthly_avg_precip)) +
-  geom_tile() +
-  labs(title = "Heatmap of Monthly Average Precipitation (1980-2016)",
-       x = "Year",
-       y = "Month",
-       fill = "Precipitation (mm)") +
-  scale_fill_viridis_c() +
-  scale_y_discrete(labels = month.name) +
-  theme_minimal()
