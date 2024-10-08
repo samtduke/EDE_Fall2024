@@ -174,7 +174,7 @@ NEON.Scatter<-NEON.LitterMass_OnlyNeedles %>%
   ggplot(aes(x=collectDate,
              y= dryMass,
              color=nlcdClass))+
-  geom_point()+
+  geom_point(alpha=.5)+
   labs(color ="nlcd Class",
        y="Dry Mass",
        x= "Collect Date"
@@ -192,10 +192,17 @@ print(NEON.Scatter)
 
 #7
 
+NEON.Facet<-NEON.LitterMass %>% 
+  ggplot(aes(x=collectDate,
+             y=dryMass))+
+  geom_point(color="steelblue", alpha=.5 ) +
+  facet_wrap(~ nlcdClass)+
+  theme_minimal()+
+  labs (x= "Collect Date", y="Dry Mass")
 
-
+print(NEON.Facet)
 
 ```
 Question: Which of these plots (6 vs. 7) do you think is more effective, and why? 
 
-> Answer:
+> Answer:It's an interesting question. I also messed around with alpha to see if it made a differene. Ultimately I think that the faceted graph provides a little more clarity, as the jumble of colors in the joint plot doesn't provide as much clarity where the Mass quantities are concentrated towards the mean of each nlcd class. Any strenght in comparison in the outliers in the joint plot is captured by the faceted chart, and the faceted chart also provides a little more clarity of where each nlcd class stands towards it mean, as there's a little less jumble (again, opacity helps with that too).
