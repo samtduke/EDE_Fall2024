@@ -109,7 +109,7 @@ Tips:
 * Setting a legend's position to "none" will remove the legend from a plot.
 * Individual plots can have different sizes when combined using `cowplot`.
 
-```{r Create boxplots}
+```{r fig.height=9}
 #5 
 
 Peter.Paul.ChemistryNutrients$month<-as.factor(Peter.Paul.ChemistryNutrients$month)
@@ -121,9 +121,10 @@ PPTemp<-Peter.Paul.ChemistryNutrients %>%
              fill= lakename))+
   geom_boxplot()+
   labs(fill= "Variables in Lakes", y= "Temperature")+
-  theme(axis.text.x=element_text(angle = 45, hjust=1, vjust=1),
+  theme(
         legend.position= "top",
-        axis.title.x = element_blank())
+        axis.title.x = element_blank(),
+        axis.text.x= element_blank())
 
 PPTpug<-Peter.Paul.ChemistryNutrients %>% 
 ggplot(aes(x=month,
@@ -132,14 +133,17 @@ ggplot(aes(x=month,
   geom_boxplot()+
   labs(x="Month")+
     theme(axis.text.x=element_text(angle = 45, hjust = 1),
-          legend.position = "none")
+          legend.position = "none")+
+  scale_x_discrete(
+  limits= c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"),
+  labels= c("January", "February", "March", "April", "May", "June", "July", "August,", "September", "October", "November", "December"))      
 
 PPTnug<-Peter.Paul.ChemistryNutrients %>% 
   ggplot(aes(x=month,
              y=tn_ug,
              fill=lakename))+
 geom_boxplot()+
-    theme(axis.text.x=element_text(angle = 45, hjust = 1),
+    theme(axis.text.x=element_blank(),
           legend.position="none",
           axis.title.x = element_blank())
 
