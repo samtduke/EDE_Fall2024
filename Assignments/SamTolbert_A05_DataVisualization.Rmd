@@ -36,15 +36,13 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Vi
 library(tidyverse)
 library(lubridate)
 library(cowplot)
+library(here)
 
 
-Peter.Paul.ChemistryNutrients<-read.csv(here
-                                  ('Data/Processed_KEY/NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv'), stringsAsFactors=T)
+Peter.Paul.ChemistryNutrients<-read.csv(here(                   'Data/Processed_KEY/NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv'), stringsAsFactors=T)
 
-NEON.LitterMass<-read.csv(here
-                          ("Data/Processed_KEY/NEON_NIWO_Litter_mass_trap_Processed.csv"),
+NEON.LitterMass<-read.csv(here("Data/Processed_KEY/NEON_NIWO_Litter_mass_trap_Processed.csv"),
   stringsAsFactors=T)
-
 
 
 #2 
