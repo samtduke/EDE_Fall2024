@@ -40,9 +40,7 @@ in code where relevant.
 
 ----
 The first analysis we can run is finding large scale trends within the
-precipitation data. Using the HUC data, we found that a general increase in
-annual precipitation. We find that from 1980 to 2016 there has been a steady
-increase in the annual mean preciptation
+precipitation data. Using the HUC data, we found that a general increase in annual precipitation. We find that from 1980 to 2016 there has been a steady increase in the annual mean preciptation
 
 ```{r}
 
@@ -57,7 +55,7 @@ Boone_Annual_Averages <- Boone_Processed %>%
 ggplot(Boone_Annual_Averages, aes(x = year, y = annual_avg_precip)) +
   geom_bar(stat = "identity", fill = "skyblue") +  # Bar plot
   geom_smooth(method = "lm", se = FALSE, color = "red", linetype = "dashed") +  # Linear regression line
-  labs(title = "Annual Average Precipitation (1980-2016) with Linear Trend",
+  labs(title = "Boone Annual Average Precipitation (1980-2016) with Linear Trend",
        x = "Year",
        y = "Average Precipitation (mm)") +
   theme_minimal()
@@ -86,7 +84,7 @@ Boone_Monthly_Averages_AllYears <- Boone_Processed %>%
 # Plotting the monthly averages (across all years) using a bar plot
 ggplot(Boone_Monthly_Averages_AllYears, aes(x = factor(month), y = monthly_avg_precip)) +
   geom_bar(stat = "identity", fill = "steelblue") +
-  labs(title = "Average Monthly Precipitation (1980-2016)",
+  labs(title = "Boone Average Monthly Precipitation (1980-2016)",
        x = "Month",
        y = "Average Precipitation (mm)") +
   theme_minimal() + 
@@ -112,7 +110,7 @@ Boone_Monthly_Averages <- Boone_Processed %>%
 # Plotting the monthly averages using a bar plot
 ggplot(Boone_Monthly_Averages, aes(x = factor(month), y = monthly_avg_precip, fill = factor(year))) +
   geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Monthly Average Precipitation (1980-2016)",
+  labs(title = "Boone Monthly Average Precipitation (1980-2016)",
        x = "Month",
        y = "Average Precipitation (mm)") +
   theme_minimal() + 
@@ -155,7 +153,7 @@ We express the results with a bar plot with separate linear regression lines for
 ggplot(Boone_Seasonal_Averages, aes(x = year, y = avg_precip, fill = Season)) +
   geom_bar(stat = "identity", position = "dodge") +  # Bar plot for both seasons side-by-side
   geom_smooth(method = "lm", aes(color = Season), se = FALSE) +  # Add separate linear regression lines for each season
-  labs(title = "Average Precipitation for Hurricane Season vs Frontal (1980-2016)",
+  labs(title = "Boone Average Precipitation for Hurricane Season vs Frontal (1980-2016)",
        x = "Year",
        y = "Average Precipitation (mm)") +
   theme_minimal() +
@@ -177,7 +175,7 @@ ggplot(Boone_Seasonal_Averages, aes(x = year, y = avg_precip)) +
   geom_bar(stat = "identity", fill = "steelblue") +  # Bar plot for average precipitation
   geom_smooth(method = "lm", se = FALSE, color = "red") +  # Add linear regression line
   facet_wrap(~ Season) +  # Facet by season ("Hurricane Season" and "Frontal")
-  labs(title = "Seasonal Precipitation Trends (1980-2016)",
+  labs(title = "Boone Seasonal Precipitation Trends (1980-2016)",
        x = "Year",
        y = "Average Precipitation (mm)") +
   theme_minimal()
@@ -188,7 +186,7 @@ since the year 2000 in the followng Time Series Analysis:
 ```{r}
 ggplot(Boone_Seasonal_Averages, aes(x = year, y = avg_precip, color = Season, group = Season)) +
   geom_line(size = 1) +
-  labs(title = "Time Series of Precipitation (1980-2016)",
+  labs(title = "Boone Time Series of Precipitation (1980-2016)",
        x = "Year",
        y = "Average Precipitation (mm)") +
   theme_minimal() +
@@ -197,30 +195,6 @@ ggplot(Boone_Seasonal_Averages, aes(x = year, y = avg_precip, color = Season, gr
 #these two grapsh show that if you give equal weight to pre 2000 post 2000, then the frontal season shifts from a flat trend to a rising trend
 
 ```
-
-
-These increasing trends become even more apparent when we give equal weight
-to pre-2000 and post-2000 date, filtering data to give a 16 year 
-year window pre/post 2000.
-
-
-```{r, echo=TRUE}
-Boone_Seasonal_Averages_Modified <- Boone_Seasonal_Averages %>%
-  filter(year >= 1984 & year <= 2016) #creating a data set from 1984-2016
-
-# Plot with separate regression lines for each season (1984-2016)
-ggplot(Boone_Seasonal_Averages_Modified, aes(x = year, y = avg_precip)) +
-  geom_bar(stat = "identity", fill = "steelblue") +  # Bar plot for average precipitation
-  geom_smooth(method = "lm", se = FALSE, color = "red") +  # Add linear regression line
-  facet_wrap(~ Season) +  # Facet by season ("Hurricane Season" and "Frontal")
-  labs(title = "Seasonal Precipitation Trends (1984-2016)",
-       x = "Year",
-       y = "Average Precipitation (mm)") +
-  theme_minimal()
-
-
-```
-
 
 
 This leads us to begin to want to track the temporal changes, not just the

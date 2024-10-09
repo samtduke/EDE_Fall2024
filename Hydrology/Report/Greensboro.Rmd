@@ -52,7 +52,7 @@ Greensboro_Annual_Averages <- Greensboro_Processed %>%
 ggplot(Greensboro_Annual_Averages, aes(x = year, y = annual_avg_precip)) +
   geom_bar(stat = "identity", fill = "skyblue") +  # Bar plot
   geom_smooth(method = "lm", se = FALSE, color = "red", linetype = "dashed") +  # Linear regression line
-  labs(title = "Annual Average Precipitation (1980-2016) with Linear Trend",
+  labs(title = "Greensboro Annual Average Precipitation (1980-2016) with Linear Trend",
        x = "Year",
        y = "Average Precipitation (mm)") +
   theme_minimal()
@@ -79,7 +79,7 @@ Greensboro_Monthly_Averages_AllYears <- Greensboro_Processed %>%
 # Plotting the monthly averages (across all years) using a bar plot
 ggplot(Greensboro_Monthly_Averages_AllYears, aes(x = factor(month), y = monthly_avg_precip)) +
   geom_bar(stat = "identity", fill = "steelblue") +
-  labs(title = "Average Monthly Precipitation (1980-2016)",
+  labs(title = "Greensboro Average Monthly Precipitation (1980-2016)",
        x = "Month",
        y = "Average Precipitation (mm)") +
   theme_minimal() + theme(
@@ -104,7 +104,7 @@ Greensboro_Monthly_Averages <- Greensboro_Processed %>%
 # Plotting the monthly averages using a bar plot
 ggplot(Greensboro_Monthly_Averages, aes(x = factor(month), y = monthly_avg_precip, fill = factor(year))) +
   geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Monthly Average Precipitation (1980-2016)",
+  labs(title = "Greensboro Monthly Average Precipitation (1980-2016)",
        x = "Month",
        y = "Average Precipitation (mm)") +
   theme_minimal() + 
@@ -147,7 +147,7 @@ We express the results with a bar plot with separate linear regression lines for
 ggplot(Greensboro_Seasonal_Averages, aes(x = year, y = avg_precip, fill = Season)) +
   geom_bar(stat = "identity", position = "dodge") +  # Bar plot for both seasons side-by-side
   geom_smooth(method = "lm", aes(color = Season), se = FALSE) +  # Add separate linear regression lines for each season
-  labs(title = "Average Precipitation for Hurricane Season vs Frontal (1980-2016)",
+  labs(title = "Greensboro Average Precipitation for Hurricane Season vs Frontal (1980-2016)",
        x = "Year",
        y = "Average Precipitation (mm)") +
   theme_minimal() +
@@ -168,7 +168,7 @@ ggplot(Greensboro_Seasonal_Averages, aes(x = year, y = avg_precip)) +
   geom_bar(stat = "identity", fill = "steelblue") +  # Bar plot for average precipitation
   geom_smooth(method = "lm", se = FALSE, color = "red") +  # Add linear regression line
   facet_wrap(~ Season) +  # Facet by season ("Hurricane Season" and "Frontal")
-  labs(title = "Seasonal Precipitation Trends (1980-2016)",
+  labs(title = "Greensboro Seasonal Precipitation Trends (1980-2016)",
        x = "Year",
        y = "Average Precipitation (mm)") +
   theme_minimal()
@@ -181,7 +181,7 @@ We can also see this increasing dominance of Hurricane systems, especially since
 ```{r}
 ggplot(Greensboro_Seasonal_Averages, aes(x = year, y = avg_precip, color = Season, group = Season)) +
   geom_line(size = 1) +
-  labs(title = "Time Series of Precipitation (1980-2016)",
+  labs(title = "Greensboro Time Series of Precipitation (1980-2016)",
        x = "Year",
        y = "Average Precipitation (mm)") +
   theme_minimal() +
