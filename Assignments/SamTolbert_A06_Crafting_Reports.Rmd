@@ -120,7 +120,7 @@ Below this paragraph, but above the horizonal line (`---`), create two separate 
 ```{r, fig.height=2.6, echo=FALSE, fig.align='left', fig.cap= 'Ozone 2018'}
 
 summary_Ozone_Month <-epa_data %>%
-  mutate(Month= factor(Month, levels = 1:12, labels=month.name))
+  mutate(Month = factor(Month, levels = 1:12, labels=month.name))
 
 summary_Ozone_Month_2018<-summary_Ozone_Month %>% 
   drop_na(Ozone) %>%
@@ -132,7 +132,11 @@ Box_Ozone_2018<-summary_Ozone_Month_2018 %>%
            geom_boxplot()+
   theme_minimal()+
   theme(axis.text.x=element_text(angle=45, hjust=1))+
-  labs(y= expression(Ozone ~ (mu ~ g/m^3)))
+  labs(y= expression(Ozone ~ (mu ~ g/m^3)))+
+  ggtitle('Ozone 2018') +
+  theme(plot.title = element_text(hjust=.5),
+        plot.margin = margin (5,5,5,5))
+
 
 print(Box_Ozone_2018)
 ```
@@ -149,7 +153,10 @@ Box_Ozone_2019<-summary_Ozone_2019 %>%
            geom_boxplot()+
   theme_minimal()+
   theme(axis.text.x=element_text(angle=45, hjust=1))+
-  labs(y= expression(Ozone ~ (mu ~ g/m^3)))
+  labs(y= expression(Ozone ~ (mu ~ g/m^3)))+
+  ggtitle('Ozone 2019') +
+  theme(plot.title = element_text(hjust=.5))
+  
 
 print(Box_Ozone_2019)
 
