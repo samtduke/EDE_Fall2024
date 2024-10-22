@@ -178,6 +178,8 @@ ggplot(Greensboro_Seasonal_Averages, aes(x = year, y = avg_precip)) +
 
 We can also see this increasing dominance of Hurricane systems, especially since the year 2000 in the following Time Series Analysis:
 
+
+
 ```{r}
 ggplot(Greensboro_Seasonal_Averages, aes(x = year, y = avg_precip, color = Season, group = Season)) +
   geom_line(size = 1) +
