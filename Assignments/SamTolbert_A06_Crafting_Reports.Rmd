@@ -1,8 +1,11 @@
 ---
 title: 'A06 - Crafting Reports'
-author: "Student Name" 
+author: "Sam Tolbert" 
 date: "Fall 2024"
 output: pdf_document
+toc : true
+lot : true
+lof : true
 ---
 
 ## Objectives:
@@ -108,12 +111,13 @@ summary_Ozone, col.names = c('County', '$\\mu g/m^3$'), label="Mean Ozone", capt
 
 ---
 
+
 ## Task 4: Plots
 
 Below this paragraph, but above the horizonal line (`---`), create two separate code chunks that create boxplots of the distribution of Ozone levels by month using, one for only records collected in 2018 and one for records in 2019. Customize the chunk options such that the final figures are displayed but not the code used to generate the figures. In addition, align the plots on the left side of the page and set the figure heights so both plots fit on the same page with minimal space remaining. Lastly, add a `fig.cap` chunk option to add a caption (title) to your plot that will display underneath the figure.
 
 \newpage
-```{r, fig.height=3, fig.align='left', echo=FALSE, fig.cap= 'Ozone 2018'}
+```{r, fig.height=2.6, echo=FALSE, fig.align='left', fig.cap= 'Ozone 2018'}
 
 summary_Ozone_Month <-epa_data %>%
   mutate(Month= factor(Month, levels = 1:12, labels=month.name))
@@ -133,7 +137,7 @@ Box_Ozone_2018<-summary_Ozone_Month_2018 %>%
 print(Box_Ozone_2018)
 ```
 
-```{r, fig.height=3, fig.align='left', echo=FALSE, fig.cap = 'Ozone 2019'}
+```{r, fig.height=2.6, fig.align='left', echo=FALSE, fig.cap = 'Ozone 2019'}
 
 summary_Ozone_2019<-summary_Ozone_Month %>% 
   drop_na(Ozone) %>%
@@ -161,3 +165,5 @@ print(Box_Ozone_2019)
 Add a table of contents and list of figures to your document and knit to a PDF. Submit your PDF to Sakai, but also be sure to commit and push your Rmd file used to create this knit document to GitHub. In the section below, add a link to your GitHub repository.
 
 ## Git Repository
+
+<https://github.com/samtduke/EDE_Fall2024>
