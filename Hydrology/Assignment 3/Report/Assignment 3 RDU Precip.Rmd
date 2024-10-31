@@ -1,0 +1,57 @@
+```{r set up, message=FALSE, warning= FALSE}
+
+getwd()
+
+library(here)
+library(lubridate)
+library(dplyr)
+library(zoo)
+
+RDUPrecip<-read.csv(here("Hydrology", "Assignment 3", "Raw", "RDU_precip_daily_cm_1942_to_2020-8-10(in).csv" ))
+
+RDUPrecip$DATE<-mdy(RDUPrecip$DATE)
+```
+
+
+
+```{r creating 48 hour hazen intervals}
+
+#roll apply to create 48 hour events that sum 48 of precip
+RDUPrecipProcessed<-RDUPrecip%>% 
+  rename(Precipitation = PRCP) %>% 
+  select (DATE:Precipitation) %>%
+  mutate(
+    Precip_48hr_sum = rollapply(Precipitation, width=2, fill=NA, FUN=sum)
+  )
+  
+#ranking 48hr events and finding the Hazen number
+ RDUPrecipProcessed %>% 
+   mutate(n=dense_rank(desc(Precip_48hr_sum))) %>% 
+  arrange(n) %>% 
+  mutate(
+    Percent_Chance_of_Rain = (100*(2*n-1)/(2*27844)),
+  Return_Period = (100/Percent_Chance_of_Rain)
+  )
+
+
+```
+
+
+
+summary(RDUPrecip)
+
+RDULine<-RDUPrecip %>% 
+  ggplot(aes(x=DATE, y=PRCP)
+         )+
+  geom_line()
+
+
+plot(RDULine)
+
+
+```
+
+
+
+
+
