@@ -3,10 +3,17 @@ title: "Assignment 7: GLMs (Linear Regressios, ANOVA, & t-tests)"
 author: "Sam Tolbert"
 date: "Fall 2024"
 output: pdf_document
+toc : true
+lof : true
 geometry: margin=2.54cm
 editor_options: 
   chunk_output_type: console
+
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message= FALSE)
+```
 
 ## OVERVIEW
 
@@ -36,12 +43,12 @@ library(lubridate)
 library(ggplot2)
 library(here)
 
-NTLitter<-read.csv(here( "Data", "Raw",
+NTLakes<-read.csv(here( "Data", "Raw",
                          "NTL-LTER_Lake_ChemistryPhysics_Raw.csv"),
                   stringsAsFactors = T
                   )
 
-NTLitter$sampledate<-mdy(NTLitter$sampledate)
+NTLakes$sampledate<-mdy(NTLakes$sampledate)
 
 
 
@@ -53,6 +60,8 @@ SamTheme<- theme(
   panel.grid.minor=element_blank(),
   axis.text.x = element_text(angle=45, hjust=1)
 )
+
+theme_set(SamTheme)
 
 ```
 
@@ -72,10 +81,12 @@ Ha: The lake temperature does change with depth across all lakes
 
 5. Visualize the relationship among the two continuous variables with a scatter plot of temperature by depth. Add a smoothed line showing the linear model, and limit temperature values from 0 to 35 °C. Make this plot look pretty and easy to read.
 
-```{r scatterplot}
+
+
+```{r scatterplot, fig.cap = "Temperature By Depth", fig.height=3.5}
 #4
 
-NTLitterWrangled<-NTLitter %>% 
+NTLakesWrangled<-NTLakes %>% 
   filter(month(sampledate) == 7) %>% 
   select(lakename:daynum, depth:temperature_C) %>% 
   drop_na(lakename:daynum, depth:temperature_C)
@@ -83,23 +94,31 @@ NTLitterWrangled<-NTLitter %>%
 
 #5
 
-NTLitterScatter<-ggplot(NTLitterWrangled,
-                        aes(x=depth, y=temperature_C, color=temperature_C))+
+NTLakesScatter<-ggplot(NTLakesWrangled,
+                        aes(x=depth,
+                          y=temperature_C, 
+                          color=temperature_C))+
                         geom_point(alpha=.6)+
-                        scale_color_gradient(low= 'blue', high= 'red')+
+                        scale_color_gradient(low= 'purple', 
+                          high= 'orange')+
                           ylim(0, 35)+
-                            geom_smooth(method="lm", color='green')+
-                            labs(color= "Temperature", x= 'Depth', y= 'Temperature (Celsius)', title= 'Temperature by Depth')+
+                            geom_smooth(method="lm", 
+                                        color='green')+
+                            labs(color= "Temperature", 
+                                 x= 'Depth (meter)', 
+                                 y= 'Temperature (Celsius)', 
+                                 title= 'Temperature by Depth'
+                              )+
   theme(plot.title=element_text(hjust=.5, color='navy'),
         legend.position = 'none')
 
-print(NTLitterScatter)
+print(NTLakesScatter)
        
 
 
 ```
 
-
+\newpage
 6. Interpret the figure. What does it suggest with regards to the response of temperature to depth? Do the distribution of points suggest about anything about the linearity of this trend?
 
 > Answer: I think the graph clearly shows an an inverse relationship between temperature and depth. As the depth increases, the temperature decreases. However, I think lm is not the best representation of this relationship. It does look like as the depth approaches around 10 meters, the temperature stops decreases much past 5 degrees. I think a more curved regression how show the changing nature of this relationship.
@@ -107,17 +126,27 @@ print(NTLitterScatter)
 
 7. Perform a linear regression to test the relationship and display the results.
 
+
+
 ```{r linear.regression}
 #7
 
+TempDepthLM<-lm(data=NTLakesWrangled, temperature_C ~ depth)
+summary(TempDepthLM)
 
 ```
 
 
 8. Interpret your model results in words. Include how much of the variability in temperature is explained by changes in depth, the degrees of freedom on which this finding is based, and the statistical significance of the result. Also mention how much temperature is predicted to change for every 1m change in depth. 
 
-> Answer:
-
+> Answer:The linear regression shows a statistically-signifgant inverse
+relationshio between temperature and depth. The depth coefficient is -1.94
+which means for every meter depth increases, temperature will decrease by about
+2 degrees. Additionally, when depth is 0, its predicted that the temperature
+will be 21.95 degrees. This is significant beyond the.001 point, way below the
+.05 threshold we tend to use, so we know that these results are statistically
+significant. The multiple r-squared is .738 which also indicates that ~73%
+of the variance of temperature is explained by depth, a high figure
 
 ---
 
@@ -132,9 +161,20 @@ Let's tackle a similar question from a different approach. Here, we want to expl
 ```{r temperature.model}
 #9
 
+TempDepthAIC<-lm(data=NTLakesWrangled, temperature_C ~ year4 + daynum + depth)
+
+step(TempDepthAIC)
+
 
 
 #10
+
+#initial lm TempDepthAIC was optimal
+
+
+TempDepthRegression<-lm(data=NTLakesWrangled, temperature_C ~ year4 + daynum + depth)
+
+summary(TempDepthRegression)
 
 
 ```
@@ -143,6 +183,13 @@ Let's tackle a similar question from a different approach. Here, we want to expl
 
 > Answer: 
 
+The final set of explanatory variable to predict temperature according
+to the AIC model is year, day, and depth, with removing none being the optimal
+AIC. A linear regression of these three variables leads to an r squared
+value of .74, meaning these three variables explain 74% of the variance of
+temperatrure, rather than the 73% explained by just depth. That means that the
+multiple regression is a slightly better fitted
+model, even if they are both high.
 
 
 ---
@@ -153,6 +200,12 @@ Let's tackle a similar question from a different approach. Here, we want to expl
 ```{r anova.model}
 #12
 
+NTLakesTempJulyANOVA<-lm(data=NTLakesWrangled, temperature_C ~ lakename)
+anova(NTLakesTempJulyANOVA)
+
+NTLakesTempJulyAOV<-aov(data=NTLakesWrangled, temperature_C ~ lakename)
+summary(NTLakesTempJulyAOV)
+
 
 ```
 
@@ -160,12 +213,29 @@ Let's tackle a similar question from a different approach. Here, we want to expl
 
 > Answer: 
 
-
+Yes, the P value for both of them says that the result is signifcgant, therefore
+confirming the alternative hypothesis and saying we know that based on 
+the sample, we can assume the mean of the the different lakes are different.
 
 14. Create a graph that depicts temperature by depth, with a separate color for each lake. Add a geom_smooth (method = "lm", se = FALSE) for each lake. Make your points 50 % transparent. Adjust your y axis limits to go from 0 to 35 degrees. Clean up your graph to make it pretty. 
 
-```{r scatterplot.2}
+```{r scatterplot.2, fig.cap= 'Temperature by Depth per Lake'}
 #14.
+
+TempByDepthPlot<-ggplot(NTLakesWrangled,aes(x=depth, 
+                                             y=temperature_C, 
+                                             color=lakename))+
+                          geom_point(alpha=.5)+
+                          ylim(0,35)+
+                          geom_smooth(method='lm', se=F)+
+                          labs(y='Temperature (Celsius)', 
+                               x='Depth (Meters)',
+                               color='Lake Name',
+                               title= 'Temperature by Depth Per Lake')
+                            plot.title=element_text(hjust=.5)
+                          
+                          
+print(TempByDepthPlot)
 
 
 ```
@@ -175,6 +245,12 @@ Let's tackle a similar question from a different approach. Here, we want to expl
 ```{r tukey.test}
 #15
 
+TukeyHSD(NTLakesTempJulyAOV)
+
+
+NTLakesHSD<-HSD.test(NTLakesTempJulyAOV, 'lakename', group=TRUE)
+
+print(NTLakesHSD)
 
 ```
 
@@ -182,11 +258,14 @@ Let's tackle a similar question from a different approach. Here, we want to expl
 
 >Answer:
 
- 
+ Same as Peter Lake: Paul Lake, Ward Lake
+ Distinct from all others: None of the, all of are similar to at least one other
 
 17. If we were just looking at Peter Lake and Paul Lake. What's another test we might explore to see whether they have distinct mean temperatures? 
 
->Answer: 
+>Answer:
+
+We can use a t-test, two-sample test is used to test the hypothesis that the mean of two samples is equivalent. Unlike the one-sample tests, a two-sample test requires a second assumption that the variance of the two groups is equivalent. 
 
 
 
@@ -194,6 +273,17 @@ Let's tackle a similar question from a different approach. Here, we want to expl
 
 ```{r t.test}
 
+NTLakesTTestData<-NTLakesWrangled %>% 
+  filter(NTLakesWrangled$lakename== c("Crampton Lake", "Ward Lake"))
+
+view(NTLakesTTestData)
+
+NTLakesTTest<-t.test(NTLakesTTestData$temperature_C ~ NTLakesTTestData$lakename)
+NTLakesTTest
+
 ```
 
->Answer: 
+>Answer: The test says the mean temp of Ward and Crampton lake are not identical
+but similar, and they match the results of the Tukey Test within .1 of a degree.
+Based on the Tukey test, even though these means are not identical they are
+statistically speaking, as they fall within the range of each other.
