@@ -58,7 +58,6 @@ EPAir_O3_13<-read_csv(here("Data","Raw","Ozone_TimeSeries",
                           "EPAair_O3_GaringerNC2013_raw.csv"))
 EPAir_O3_14<-read_csv(here("Data","Raw","Ozone_TimeSeries",
                           "EPAair_O3_GaringerNC2014_raw.csv"))
-                        
 EPAir_O3_15<-read_csv(here("Data","Raw","Ozone_TimeSeries",
                           "EPAair_O3_GaringerNC2015_raw.csv"))
 EPAir_O3_16<-read_csv(here("Data","Raw","Ozone_TimeSeries",
@@ -70,10 +69,10 @@ EPAir_O3_18<-read_csv(here("Data","Raw","Ozone_TimeSeries",
 EPAir_O3_19<-read_csv(here("Data","Raw","Ozone_TimeSeries",
                           "EPAair_O3_GaringerNC2019_raw.csv"))
 
-EPAirCombined<-rbind (EPAir_O3_19,EPAir_O3_18,EPAir_O3_17, EPAir_O3_16, EPAir_O3_15,
-      EPAir_O3_14, EPAir_O3_13, EPAir_O3_12, 
-      EPAir_O3_11, EPAir_O3_10
-      )
+EPAirCombined<-rbind (EPAir_O3_19,EPAir_O3_18,EPAir_O3_17, EPAir_O3_16, 
+                      EPAir_O3_15,EPAir_O3_14, EPAir_O3_13, EPAir_O3_12, 
+                      EPAir_O3_11, EPAir_O3_10
+                       )
 
 
 
@@ -144,7 +143,7 @@ Study question: Have ozone concentrations changed over the 2010s at this station
 ```{r}
 #8
 
-GaringerOzoneLinearInter<- GaringerOzone %>% 
+GaringerOzoneLinearClean<- GaringerOzone %>% 
   mutate(DailyMaxClean=na.approx(`Daily Max 8-hour Ozone Concentration`),
          DailyAQIClean=na.approx(DAILY_AQI_VALUE))
 
@@ -162,6 +161,15 @@ and spline risked over fitting or creating articial peaks or troughs.
 ```{r}
 #9
 
+GaringerOzone.monthly<-GaringerOzoneLinearClean %>% 
+  mutate(Year_Month=format(Date, "%Y-%m")) %>% 
+  group_by(Year_Month) %>% 
+  summarize(MonthlyMean=mean(`DailyMaxClean`, na.rm=T))
+
+GaringerOzone.monthly<-GaringerOzone.monthly %>% 
+  mutate(Date=ymd(paste0(Year_Month,"-01")))
+
+
 ```
 
 
@@ -170,6 +178,18 @@ and spline risked over fitting or creating articial peaks or troughs.
 ```{r}
 #10
 
+GaringerOzone.daily.ts<-ts(
+  GaringerOzoneLinearClean$DailyMaxClean,
+  start= c(2010,1), frequency=365)
+
+print(GaringerOzone.daily.ts)
+
+GaringerOzone.monthly.ts<-ts(
+  GaringerOzone.monthly$MonthlyMean,
+  start= c(2010,1), frequency=12)
+
+print(GaringerOzone.monthly.ts)
+
 ```
 
 
@@ -177,6 +197,16 @@ and spline risked over fitting or creating articial peaks or troughs.
 
 ```{r}
 #11
+
+GaringerOzone.daily.ts.Decomposed<-stl(GaringerOzone.daily.ts,
+                            s.window = 'periodic')
+
+plot(GaringerOzone.daily.ts.Decomposed)
+
+GaringerOzone.monthly.ts.Decomposed<-stl(GaringerOzone.monthly.ts,
+                            s.window = 'periodic')
+
+plot(GaringerOzone.monthly.ts.Decomposed)
 
 
 ```
