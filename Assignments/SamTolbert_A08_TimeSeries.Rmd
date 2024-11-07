@@ -212,30 +212,46 @@ plot(GaringerOzone.monthly.ts.Decomposed)
 ```
 
 
-12. Run a monotonic trend analysis for the monthly Ozone series. In this case the seasonal Mann-Kendall is most appropriate; why is this?
+12. Run a monotonic trend analysis for the monthly Ozone series.In this case the seasonal Mann-Kendall is most appropriate; why is this?
 
 ```{r}
 #12
 
+trend::mk.test(GaringerOzone.monthly.ts)
 
 
 ```
 
-> Answer: 
+> Answer: Becasue the Mann-Kendall test is robust to seasonality. We can observe
+some general seasonal trends in this graph.
 
 13. Create a plot depicting mean monthly ozone concentrations over time, with both a geom_point and a geom_line layer. Edit your axis labels accordingly.
 
 ```{r}
 # 13
 
+MeanMonthlyOzoneLine<-GaringerOzone.monthly %>% 
+  ggplot(aes(x=Date, y= MonthlyMean))+
+  geom_point()+
+  geom_line()+
+  labs(y="Monthly AQI Mean")
 
+print(MeanMonthlyOzoneLine)
 
 
 ```
 
 14. To accompany your graph, summarize your results in context of the research question. Include output from the statistical test in parentheses at the end of your sentence. Feel free to use multiple sentences in your interpretation.
 
-> Answer: 
+> Answer: There is no significant trend to observe in this data and no reason
+to reject the null hypothesis that AQI is determined by Date..
+
+data:  GaringerOzone.monthly.ts
+z = -0.95947, n = 120, p-value = 0.3373
+alternative hypothesis: true S is not equal to 0
+sample estimates:
+              S            varS             tau 
+  -424.00000000 194364.66666667     -0.05939207 )
 
 15. Subtract the seasonal component from the `GaringerOzone.monthly.ts`. Hint: Look at how we extracted the series components for the EnoDischarge on the lesson Rmd file.
 
@@ -244,13 +260,26 @@ plot(GaringerOzone.monthly.ts.Decomposed)
 ```{r}
 #15
 
+GaringerOzone.monthly.Seasonality.ts<-
+  GaringerOzone.monthly.ts.Decomposed$time.series[, 1]
+
+GaringerOzone.monthly.NoSeasonality.ts<-GaringerOzone.monthly.ts-
+  GaringerOzone.monthly.Seasonality.ts
+
+
+plot(GaringerOzone.monthly.NoSeasonality.ts)
+
+
 
 
 #16
 
-
+trend::mk.test(GaringerOzone.monthly.NoSeasonality.ts)
 
 
 ```
 
-> Answer: 
+> Answer: The Z value is much larger negative and the p-value is much lower.
+This means that the downard trend is much more pronounced without the noise
+of seasonality and that it is considered statistically signifigant enough to
+reject the null hypothesis.

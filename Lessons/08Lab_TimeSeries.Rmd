@@ -188,7 +188,7 @@ Monotonic trends are a gradual shift over time that is consistent in direction. 
 
 
 
-
+Kendall::SeasonalMannKendall()
 
 
 
