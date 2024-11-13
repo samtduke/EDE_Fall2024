@@ -21,13 +21,13 @@ RDUPrecipProcessed<-RDUPrecip%>%
   rename(Precipitation = PRCP) %>%
   select (DATE:Precipitation) %>%
    mutate(
-     Precipitation=(Precipitation*0.393701),
-     n=dense_rank(desc(Precipitation))) %>% 
+     Precipitation=(Precipitation*0.0393701), #convert to inches from mm
+     n=dense_rank(desc(Precipitation))) %>% #ranking
   arrange(n) %>% 
   mutate(
-    Percent_Chance_of_Rain = (100*(2*n-1)/(2*27844)),
-  Return_Period = (100/Percent_Chance_of_Rain),
-  Return_Period_Annual = (Return_Period/365)
+    Percent_Chance_of_Rain = (100*(2*n-1)/(2*27844)), #creating Hazen Number
+  Return_Period = (100/Percent_Chance_of_Rain), #finding interval
+  Return_Period_Annual = (Return_Period/365) #annualizing
   )
  
  
@@ -41,11 +41,10 @@ RDUPrecipProcessed<-RDUPrecip%>%
 summary(RDUPrecipProcessed)
 
 RDUPlot<-RDUPrecipProcessed %>% 
-  ggplot(aes(x=-n, y=Precip_48hr_sum)
+  ggplot(aes(x=-n, y=Precipitation)
          )+
   geom_line()+
-  geom_smooth(method='loess')
-
+  
 plot(RDUPlot)
 
 RDUPlot2<-RDUPrecipProcessed %>% 
@@ -60,7 +59,26 @@ plot(RDUPlot2)
 
 ```
 
+```{r max per year}
 
+
+RDUPrecipProcessedYearMax<-RDUPrecip%>% 
+  rename(Precipitation = PRCP) %>%
+  select (DATE:Precipitation) %>%
+  group_by
+   mutate(
+     Precipitation=(Precipitation*0.0393701), #convert to inches from mm
+     n=dense_rank(desc(Precipitation))) %>% #ranking
+  arrange(n) %>% 
+  mutate(
+    Percent_Chance_of_Rain = (100*(2*n-1)/(2*27844)), #creating Hazen Number
+  Return_Period = (100/Percent_Chance_of_Rain), #finding interval
+  Return_Period_Annual = (Return_Period/365) #annualizing
+  )
+ 
+
+
+```
 
 
 
